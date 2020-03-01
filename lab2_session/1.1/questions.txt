@@ -1,0 +1,21 @@
+1.1
+2)
+	a) 
+	$ gcc -O0 pi.c -o pi.O0
+
+	b)
+	$ /usr/bin/time -o pi.0_time ./pi.O0
+
+	c)
+	$ cat pi.0_time  
+	El %CPU es el tanto por ciento de CPU usada para ejecutar el programa
+3)
+	a)
+	$ gcc -O1 pi.c -o pi.O1
+	$ gcc -O2 pi.c -o pi.O2
+	$ gcc -O3 pi.c -o pi.O3
+
+	b) i c) 
+	$ /usr/bin/time -o pi.0_time -f "Elapsed time: %e  User: %U  System: %S " ./pi.O0 
+	$ /usr/bin/time -o pi.3_time -f "Elapsed time: %e  User: %U  System: %S " ./pi.O3
+
