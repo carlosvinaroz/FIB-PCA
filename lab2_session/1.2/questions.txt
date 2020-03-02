@@ -1,2 +1,14 @@
 1.2
+4)
+	a)$ gprof -b -l ./pi.O0.pg > pi.O0.pg.gprof.txt
+	DIVIDE is the most invoked with 3014 calls
+	
+	b)$ gprof -b ./pi.O0.pg > pi.O0.pg.gprof.txt
+	calculate consume 100 % of the cpu's time	
+
+	c)$ gprof -b -l ./pi.O0.pg > pi.O0.pg.gprof.txt
+	DIVIDE consume 28.67 % of the cpu's time
+
+	d) No, en gprof no muestra nada del sistema
+	
 
