@@ -1,0 +1,70 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+ 28.67      0.02     0.02                             DIVIDE (pi.c:18 @ 4008c8)
+ 28.67      0.04     0.02                             SUBTRACT (pi.c:91 @ 400b7f)
+ 14.34      0.05     0.01                             DIVIDE (pi.c:19 @ 4008d8)
+ 14.34      0.06     0.01                             DIVIDE (pi.c:20 @ 4008e9)
+ 14.34      0.07     0.01                             LONGDIV (pi.c:36 @ 400965)
+  0.00      0.07     0.00     3014     0.00     0.00  DIVIDE (pi.c:9 @ 40087d)
+  0.00      0.07     0.00     2011     0.00     0.00  SUBTRACT (pi.c:85 @ 400b5b)
+  0.00      0.07     0.00     1007     0.00     0.00  SET (pi.c:78 @ 400b1d)
+  0.00      0.07     0.00     1005     0.00     0.00  progress (pi.c:181 @ 400e1f)
+  0.00      0.07     0.00     1004     0.00     0.00  LONGDIV (pi.c:25 @ 400911)
+  0.00      0.07     0.00        2     0.00     0.00  MULTIPLY (pi.c:64 @ 400a91)
+  0.00      0.07     0.00        1     0.00     0.00  calculate (pi.c:126 @ 400cc1)
+  0.00      0.07     0.00        1     0.00     0.00  epilog (pi.c:186 @ 400e34)
+
+			Call graph
+
+
+granularity: each sample hit covers 2 byte(s) for 14.24% of 0.07 seconds
+
+index % time    self  children    called     name
+                0.00    0.00       1/3014        calculate (pi.c:152 @ 400db4) [71]
+                0.00    0.00       1/3014        calculate (pi.c:155 @ 400dd7) [73]
+                0.00    0.00    1004/3014        calculate (pi.c:140 @ 400d3d) [63]
+                0.00    0.00    1004/3014        calculate (pi.c:143 @ 400d60) [65]
+                0.00    0.00    1004/3014        calculate (pi.c:144 @ 400d6f) [66]
+[6]      0.0    0.00    0.00    3014         DIVIDE (pi.c:9 @ 40087d) [6]
+-----------------------------------------------
+                0.00    0.00       1/2011        calculate (pi.c:151 @ 400da0) [70]
+                0.00    0.00       1/2011        calculate (pi.c:154 @ 400dc3) [72]
+                0.00    0.00       1/2011        calculate (pi.c:158 @ 400df5) [75]
+                0.00    0.00    1004/2011        calculate (pi.c:139 @ 400d29) [62]
+                0.00    0.00    1004/2011        calculate (pi.c:143 @ 400d60) [65]
+[7]      0.0    0.00    0.00    2011         SUBTRACT (pi.c:85 @ 400b5b) [7]
+-----------------------------------------------
+                0.00    0.00       1/1007        calculate (pi.c:131 @ 400cdd) [57]
+                0.00    0.00       1/1007        calculate (pi.c:132 @ 400cec) [58]
+                0.00    0.00       1/1007        calculate (pi.c:151 @ 400da0) [70]
+                0.00    0.00    1004/1007        calculate (pi.c:136 @ 400d0b) [60]
+[8]      0.0    0.00    0.00    1007         SET (pi.c:78 @ 400b1d) [8]
+-----------------------------------------------
+                0.00    0.00       1/1005        calculate (pi.c:159 @ 400e09) [76]
+                0.00    0.00    1004/1005        calculate (pi.c:146 @ 400d7e) [67]
+[9]      0.0    0.00    0.00    1005         progress (pi.c:181 @ 400e1f) [9]
+-----------------------------------------------
+                0.00    0.00    1004/1004        calculate (pi.c:137 @ 400d1a) [61]
+[10]     0.0    0.00    0.00    1004         LONGDIV (pi.c:25 @ 400911) [10]
+-----------------------------------------------
+                0.00    0.00       1/2           calculate (pi.c:157 @ 400de6) [74]
+                0.00    0.00       1/2           calculate (pi.c:159 @ 400e09) [76]
+[11]     0.0    0.00    0.00       2         MULTIPLY (pi.c:64 @ 400a91) [11]
+-----------------------------------------------
+                0.00    0.00       1/1           main (pi.c:118 @ 400cb0) [98]
+[12]     0.0    0.00    0.00       1         calculate (pi.c:126 @ 400cc1) [12]
+-----------------------------------------------
+                0.00    0.00       1/1           main (pi.c:118 @ 400cb0) [98]
+[13]     0.0    0.00    0.00       1         epilog (pi.c:186 @ 400e34) [13]
+-----------------------------------------------
+
+Index by function name
+
+   [6] DIVIDE (pi.c:9 @ 40087d) [5] LONGDIV (pi.c:36 @ 400965) [12] calculate (pi.c:126 @ 400cc1)
+   [1] DIVIDE (pi.c:18 @ 4008c8) [11] MULTIPLY (pi.c:64 @ 400a91) [13] epilog (pi.c:186 @ 400e34)
+   [3] DIVIDE (pi.c:19 @ 4008d8) [8] SET (pi.c:78 @ 400b1d) [9] progress (pi.c:181 @ 400e1f)
+   [4] DIVIDE (pi.c:20 @ 4008e9) [7] SUBTRACT (pi.c:85 @ 400b5b)
+  [10] LONGDIV (pi.c:25 @ 400911) [2] SUBTRACT (pi.c:91 @ 400b7f)
