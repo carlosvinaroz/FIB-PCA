@@ -5,6 +5,9 @@
 
 	b)
 	$ /usr/bin/time -o pi.0_time ./pi.O0
+	55.69user 0.18system 0:55.89elapsed 99%CPU (0avgtext+0avgdata 852maxresident)k
+0inputs+0outputs (0major+64minor)pagefaults 0swaps
+
 
 	c)
 	$ cat pi.0_time  
@@ -14,6 +17,10 @@
 	$ gcc -O1 pi.c -o pi.O1
 	$ gcc -O2 pi.c -o pi.O2
 	$ gcc -O3 pi.c -o pi.O3
+	/usr/bin/time -o pi.3_time ./pi.O3
+	17.80user 0.16system 0:17.99elapsed 99%CPU (0avgtext+0avgdata 984maxresident)k
+0inputs+0outputs (0major+66minor)pagefaults 0swaps
+
 
 	b) i c) 
 	$ /usr/bin/time -o pi.0_time -f "Elapsed time: %e  User: %U  System: %S " ./pi.O0 
