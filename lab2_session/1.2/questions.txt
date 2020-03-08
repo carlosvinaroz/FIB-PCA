@@ -1,175 +1,177 @@
 1.2
 4)
-	a)$ gprof -b ./pi.O0.pg > pi.O0.pg.gprof.txt
+	a) i b)
+	Vemos que la rutina más invocada por el programa es "SUBTRACT" con 2011 calls. Y el mayor tiempo de CPU consumido por una
+	rutina del programa es 26.32% (supongo que __aeabi_uidiv no es una rutina del programa) 
+	$ gcc -pg -g -O0 pi.c -o pi.O0.pg	#Compilamos con -g y -pg para poder utilizar gprof
+	$ ./pi.O0.pg 1000			#Y ejecutamos antes de gprof siempre
+	$ gprof -b ./pi.O0.pg > pi.O0.pg.gprof.txt
+	$ cat pi.O0.pg.gprof.txt
 	Flat profile:
-Each sample counts as 0.01 seconds.
-  %   cumulative   self              self     total           
- time   seconds   seconds    calls  ms/call  ms/call  name    
- 47.37      0.27     0.27                             __aeabi_uidiv
- 26.32      0.42     0.15     2011     0.07     0.07  SUBTRACT
- 24.56      0.56     0.14     3014     0.05     0.05  DIVIDE
-  1.75      0.57     0.01     1004     0.01     0.01  LONGDIV
-  0.00      0.57     0.00     1007     0.00     0.00  SET
-  0.00      0.57     0.00     1005     0.00     0.00  progress
-  0.00      0.57     0.00        2     0.00     0.00  MULTIPLY
-  0.00      0.57     0.00        1     0.00   300.00  calculate
-  0.00      0.57     0.00        1     0.00     0.00  epilog
+	Each sample counts as 0.01 seconds.
+	  %   cumulative   self              self     total           
+	 time   seconds   seconds    calls  ms/call  ms/call  name    
+	 47.37      0.27     0.27                             __aeabi_uidiv
+	 26.32      0.42     0.15     2011     0.07     0.07  SUBTRACT
+	 24.56      0.56     0.14     3014     0.05     0.05  DIVIDE
+	  1.75      0.57     0.01     1004     0.01     0.01  LONGDIV
+	  0.00      0.57     0.00     1007     0.00     0.00  SET
+	  0.00      0.57     0.00     1005     0.00     0.00  progress
+	  0.00      0.57     0.00        2     0.00     0.00  MULTIPLY
+	  0.00      0.57     0.00        1     0.00   300.00  calculate
+	  0.00      0.57     0.00        1     0.00     0.00  epilog
 
 
-	
-	b)$ gprof -b ./pi.O0.pg > pi.O0.pg.gprof.txt
-	Flat profile:
+	c)
+	Ejecutamos gprof con el flag -l para ver la información por linia de código. Por linia de código observamos que DIVIDE 
+	(linia 17 del programa) consume el mayor tiempo de CPU con 7.89 %
+	$ gprof -b -l ./pi.O0.pg > pi.O0.pg.gprof.txt
+	Each sample counts as 0.01 seconds.
+	  %   cumulative   self              self     total           
+	 time   seconds   seconds    calls  Ts/call  Ts/call  name    
+	 47.37      0.27     0.27                             __aeabi_uidiv
+	  7.89      0.32     0.04                             DIVIDE (pi.c:17 @ 10792)
+	  7.89      0.36     0.04                             SUBTRACT (pi.c:91 @ 109e8)
+	  7.02      0.40     0.04                             DIVIDE (pi.c:19 @ 107b6)
+	  7.02      0.44     0.04                             SUBTRACT (pi.c:94 @ 10a30)
+	  6.14      0.47     0.04                             SUBTRACT (pi.c:93 @ 10a16)
+	  5.26      0.51     0.03                             SUBTRACT (pi.c:89 @ 10a46)
+	  3.51      0.53     0.02                             DIVIDE (pi.c:18 @ 107a8)
+	  3.51      0.55     0.02                             DIVIDE (pi.c:15 @ 107d0)
+	  1.75      0.56     0.01                             DIVIDE (pi.c:20 @ 107c4)
+	  1.75      0.56     0.01                             LONGDIV (pi.c:37 @ 10838)
+	  0.88      0.57     0.01                             DIVIDE (pi.c:15 @ 1078c)
+	  0.00      0.57     0.00     3014     0.00     0.00  DIVIDE (pi.c:9 @ 10778)
+	  0.00      0.57     0.00     2011     0.00     0.00  SUBTRACT (pi.c:85 @ 109c8)
+	  0.00      0.57     0.00     1007     0.00     0.00  SET (pi.c:78 @ 10990)
+	  0.00      0.57     0.00     1005     0.00     0.00  progress (pi.c:181 @ 10c8c)
+	  0.00      0.57     0.00     1004     0.00     0.00  LONGDIV (pi.c:25 @ 107f0)
+	  0.00      0.57     0.00        2     0.00     0.00  MULTIPLY (pi.c:64 @ 1090c)
+	  0.00      0.57     0.00        1     0.00     0.00  calculate (pi.c:126 @ 10b08)
+	  0.00      0.57     0.00        1     0.00     0.00  epilog (pi.c:186 @ 10ca0)
+		
 
-Each sample counts as 0.01 seconds.
-  %   cumulative   self              self     total           
- time   seconds   seconds    calls  ms/call  ms/call  name    
- 47.37      0.27     0.27                             __aeabi_uidiv
- 26.32      0.42     0.15     2011     0.07     0.07  SUBTRACT
- 24.56      0.56     0.14     3014     0.05     0.05  DIVIDE
-  1.75      0.57     0.01     1004     0.01     0.01  LONGDIV
-  0.00      0.57     0.00     1007     0.00     0.00  SET
-  0.00      0.57     0.00     1005     0.00     0.00  progress
-  0.00      0.57     0.00        2     0.00     0.00  MULTIPLY
-  0.00      0.57     0.00        1     0.00   300.00  calculate
-  0.00      0.57     0.00        1     0.00     0.00  epilog
-	
-
-	c)$ gprof -b -l ./pi.O0.pg > pi.O0.pg.gprof.txt
-Each sample counts as 0.01 seconds.
-  %   cumulative   self              self     total           
- time   seconds   seconds    calls  Ts/call  Ts/call  name    
- 47.37      0.27     0.27                             __aeabi_uidiv
-  7.89      0.32     0.04                             DIVIDE (pi.c:17 @ 10792)
-  7.89      0.36     0.04                             SUBTRACT (pi.c:91 @ 109e8)
-  7.02      0.40     0.04                             DIVIDE (pi.c:19 @ 107b6)
-  7.02      0.44     0.04                             SUBTRACT (pi.c:94 @ 10a30)
-  6.14      0.47     0.04                             SUBTRACT (pi.c:93 @ 10a16)
-  5.26      0.51     0.03                             SUBTRACT (pi.c:89 @ 10a46)
-  3.51      0.53     0.02                             DIVIDE (pi.c:18 @ 107a8)
-  3.51      0.55     0.02                             DIVIDE (pi.c:15 @ 107d0)
-  1.75      0.56     0.01                             DIVIDE (pi.c:20 @ 107c4)
-  1.75      0.56     0.01                             LONGDIV (pi.c:37 @ 10838)
-  0.88      0.57     0.01                             DIVIDE (pi.c:15 @ 1078c)
-  0.00      0.57     0.00     3014     0.00     0.00  DIVIDE (pi.c:9 @ 10778)
-  0.00      0.57     0.00     2011     0.00     0.00  SUBTRACT (pi.c:85 @ 109c8)
-  0.00      0.57     0.00     1007     0.00     0.00  SET (pi.c:78 @ 10990)
-  0.00      0.57     0.00     1005     0.00     0.00  progress (pi.c:181 @ 10c8c)
-  0.00      0.57     0.00     1004     0.00     0.00  LONGDIV (pi.c:25 @ 107f0)
-  0.00      0.57     0.00        2     0.00     0.00  MULTIPLY (pi.c:64 @ 1090c)
-  0.00      0.57     0.00        1     0.00     0.00  calculate (pi.c:126 @ 10b08)
-  0.00      0.57     0.00        1     0.00     0.00  epilog (pi.c:186 @ 10ca0)
-	DIVIDE consume 7.89 % of the cpu's time
-
-	d) No, en gprof no muestra nada del sistema igual que en Valgrind
+	d) 
+	No, en gprof no muestra nada del sistema igual que en Valgrind
 
 5)
-	a)$ gprof -b ./pi.O3.pg > pi.O3.pg.gprof.txt
-	Solo aparece la funcion calculate
-time   seconds   seconds    calls  Ts/call  Ts/call  name    
- 70.66      0.12     0.12                             calculate
- 29.44      0.17     0.05                             __aeabi_uidiv
+	a) i b)
+	$ gcc -pg -g -O3 pi.c -o pi.O3.pg
+	$ ./pi.O3.pg 1000
+	$ gprof -b ./pi.O3.pg > pi.O3.pg.gprof.txt
+	$ cat pi.O3.pg.gprof.txt
+	Solo aparece la funcion calculate, debido seguramente a que copia el código de todas las funciones a calculate que es 
+	donde se llaman, mejorando el tiempo de ejecución pues se hacen menos calls (inline). Ello conlleva tambien a que aumente 
+	el peso del ejecutable. Pues si hay dos llamadas de una función, el código de esta se ve duplicado. 
+	time   seconds   seconds    calls  Ts/call  Ts/call  name    
+	 70.66      0.12     0.12                             calculate
+	 29.44      0.17     0.05                             __aeabi_uidiv
 
-	$ gprof -b ./pi.O3.pg > pi.O3.pg.gprof.txt 
- time   seconds   seconds    calls  Ts/call  Ts/call  name    
- 70.66      0.12     0.12                             calculate
- 29.44      0.17     0.05                             __aeabi_uidiv
-
+	He mirado por línea de código a ver que pasaba, y como se aprecia, no tienen ninguna llamada, por lo que reafirmo lo que 
+	dije anteriormente (inline de las funciones) 
 	$ gprof -b -l ./pi.O3.pg > pi.O3.pg.gprof.txt
- time   seconds   seconds    calls  Ts/call  Ts/call  name    
- 29.44      0.05     0.05                             __aeabi_uidiv
- 11.78      0.07     0.02                             SUBTRACT (pi.c:91 @ 10ada)
-  8.83      0.09     0.02                             SUBTRACT (pi.c:94 @ 10b80)
-  5.89      0.10     0.01                             DIVIDE (pi.c:18 @ 10bd6)
-  5.89      0.11     0.01                             DIVIDE (pi.c:20 @ 10bdc)
-  5.89      0.12     0.01                             SUBTRACT (pi.c:93 @ 10aee)
-  5.89      0.13     0.01                             SUBTRACT (pi.c:89 @ 10afa)
-  5.89      0.14     0.01                             SUBTRACT (pi.c:91 @ 10b68)
-  2.94      0.14     0.01                             DIVIDE (pi.c:18 @ 10b46)
-  2.94      0.15     0.01                             DIVIDE (pi.c:20 @ 10b4c)
-  2.94      0.15     0.01                             LONGDIV (pi.c:33 @ 10c1c)
-  2.94      0.16     0.01                             LONGDIV (pi.c:35 @ 10c34)
-  2.94      0.16     0.01                             LONGDIV (pi.c:37 @ 10c4c)
-  2.94      0.17     0.01                             LONGDIV (pi.c:33 @ 10c50)
-  2.94      0.17     0.01                             SUBTRACT (pi.c:89 @ 10b88)
+	 time   seconds   seconds    calls  Ts/call  Ts/call  name    
+	 29.44      0.05     0.05                             __aeabi_uidiv
+	 11.78      0.07     0.02                             SUBTRACT (pi.c:91 @ 10ada)
+	  8.83      0.09     0.02                             SUBTRACT (pi.c:94 @ 10b80)
+	  5.89      0.10     0.01                             DIVIDE (pi.c:18 @ 10bd6)
+	  5.89      0.11     0.01                             DIVIDE (pi.c:20 @ 10bdc)
+	  5.89      0.12     0.01                             SUBTRACT (pi.c:93 @ 10aee)
+	  5.89      0.13     0.01                             SUBTRACT (pi.c:89 @ 10afa)
+	  5.89      0.14     0.01                             SUBTRACT (pi.c:91 @ 10b68)
+	  2.94      0.14     0.01                             DIVIDE (pi.c:18 @ 10b46)
+	  2.94      0.15     0.01                             DIVIDE (pi.c:20 @ 10b4c)
+	  2.94      0.15     0.01                             LONGDIV (pi.c:33 @ 10c1c)
+	  2.94      0.16     0.01                             LONGDIV (pi.c:35 @ 10c34)
+	  2.94      0.16     0.01                             LONGDIV (pi.c:37 @ 10c4c)
+	  2.94      0.17     0.01                             LONGDIV (pi.c:33 @ 10c50)
+	  2.94      0.17     0.01                             SUBTRACT (pi.c:89 @ 10b88)
 
 	
-	b) Porque la optimización del O3 hace inline sobre las funciones DIVIDE, SUBSTRACT, etc y las implementa dentro de calculate. Aparte, obviamente de la optimizaciones de bucles y código en general. Además ignora las funciones que no son llamadas
-
 6)
-	a)operf --event=CPU_CYCLES:100000 ./pi.O0.g
-	opreport -l
+	a)
+	Las diferencias en la columna de samples es debido a que oprofile utiliza el evento predeterminado para Linux llamado 
+	CYCLES, que cuenta los ciclos del procesador. La diferencia de este contador determina la frecuencia con la que ocurre un 
+	evento y por lo tanto, esto afecta al recuento de muestras de cada evento. De ahí las diferencias de recuento de las 
+	muestras (samples)
+	$ gcc -g -O0 pi.c -o pi.O0.g
+	$ operf --event=CPU_CYCLES:100000 ./pi.O0.g
+	$ opreport -l
+
+	CPU: ARM Cortex-A9, speed 999 MHz (estimated)
+	Counted CPU_CYCLES events (CPU cycle) with a unit mask of 0x00 (No unit mask) count 100000
+	samples  %        image name               symbol name
+	130235   33.5958  pi.O0.g                  __aeabi_uidiv
+	109775   28.3179  pi.O0.g                  SUBTRACT
+	94519    24.3824  pi.O0.g                  DIVIDE
+	34861     8.9928  pi.O0.g                  LONGDIV
+	13832     3.5681  pi.O0.g                  .divsi3_skip_div0_test
+	3594      0.9271  no-vmlinux               /no-vmlinux
+	289       0.0746  pi.O0.g                  __divsi3
+	199       0.0513  libc-2.23.so             memset
+	67        0.0173  libc-2.23.so             vfprintf
+	39        0.0101  libc-2.23.so             _IO_file_write@@GLIBC_2.4
+	34        0.0088  libc-2.23.so             new_do_write
+	31        0.0080  libc-2.23.so             putchar
+	22        0.0057  libc-2.23.so             write
+	22        0.0057  pi.O0.g                  calculate
+	16        0.0041  libc-2.23.so             _IO_file_overflow@@GLIBC_2.4
+	16        0.0041  libc-2.23.so             _IO_file_xsputn@@GLIBC_2.4
+	16        0.0041  pi.O0.g                  epilog
+	14        0.0036  libc-2.23.so             buffered_vfprintf
+	11        0.0028  libc-2.23.so             strchrnul
+	10        0.0026  libc-2.23.so             _IO_do_write@@GLIBC_2.4
+	10        0.0026  pi.O0.g                  MULTIPLY
+	8         0.0021  libc-2.23.so             _IO_default_xsputn
+	7         0.0018  pi.O0.g                  SET
+	6         0.0015  libc-2.23.so             __overflow
+	6         0.0015  libc-2.23.so             _itoa_word
+	5         0.0013  pi.O0.g                  progress
+	4         0.0010  libc-2.23.so             fputc
+	1        2.6e-04  ld-2.23.so               _dl_relocate_object
+	1        2.6e-04  ld-2.23.so               check_match
+	1        2.6e-04  ld-2.23.so               open
+	1        2.6e-04  libc-2.23.so             _IO_flush_all_lockp
+	1        2.6e-04  libc-2.23.so             fwrite
 
 
-CPU: ARM Cortex-A9, speed 999 MHz (estimated)
-Counted CPU_CYCLES events (CPU cycle) with a unit mask of 0x00 (No unit mask) count 100000
-samples  %        image name               symbol name
-130235   33.5958  pi.O0.g                  __aeabi_uidiv
-109775   28.3179  pi.O0.g                  SUBTRACT
-94519    24.3824  pi.O0.g                  DIVIDE
-34861     8.9928  pi.O0.g                  LONGDIV
-13832     3.5681  pi.O0.g                  .divsi3_skip_div0_test
-3594      0.9271  no-vmlinux               /no-vmlinux
-289       0.0746  pi.O0.g                  __divsi3
-199       0.0513  libc-2.23.so             memset
-67        0.0173  libc-2.23.so             vfprintf
-39        0.0101  libc-2.23.so             _IO_file_write@@GLIBC_2.4
-34        0.0088  libc-2.23.so             new_do_write
-31        0.0080  libc-2.23.so             putchar
-22        0.0057  libc-2.23.so             write
-22        0.0057  pi.O0.g                  calculate
-16        0.0041  libc-2.23.so             _IO_file_overflow@@GLIBC_2.4
-16        0.0041  libc-2.23.so             _IO_file_xsputn@@GLIBC_2.4
-16        0.0041  pi.O0.g                  epilog
-14        0.0036  libc-2.23.so             buffered_vfprintf
-11        0.0028  libc-2.23.so             strchrnul
-10        0.0026  libc-2.23.so             _IO_do_write@@GLIBC_2.4
-10        0.0026  pi.O0.g                  MULTIPLY
-8         0.0021  libc-2.23.so             _IO_default_xsputn
-7         0.0018  pi.O0.g                  SET
-6         0.0015  libc-2.23.so             __overflow
-6         0.0015  libc-2.23.so             _itoa_word
-5         0.0013  pi.O0.g                  progress
-4         0.0010  libc-2.23.so             fputc
-1        2.6e-04  ld-2.23.so               _dl_relocate_object
-1        2.6e-04  ld-2.23.so               check_match
-1        2.6e-04  ld-2.23.so               open
-1        2.6e-04  libc-2.23.so             _IO_flush_all_lockp
-1        2.6e-04  libc-2.23.so             fwrite
+	& operf --event=CPU_CYCLES:750000 ./pi.O0.g
+	& opreport -l
 
+	CPU: ARM Cortex-A9, speed 999 MHz (estimated)
+	Counted CPU_CYCLES events (CPU cycle) with a unit mask of 0x00 (No unit mask) count 750000
+	samples  %        image name               symbol name
+	16731    33.2955  pi.O0.g                  __aeabi_uidiv
+	14284    28.4259  pi.O0.g                  SUBTRACT
+	12407    24.6905  pi.O0.g                  DIVIDE
+	4470      8.8955  pi.O0.g                  LONGDIV
+	1775      3.5323  pi.O0.g                  .divsi3_skip_div0_test
+	467       0.9294  no-vmlinux               /no-vmlinux
+	41        0.0816  pi.O0.g                  __divsi3
+	26        0.0517  libc-2.23.so             memset
+	11        0.0219  libc-2.23.so             write
+	8         0.0159  libc-2.23.so             vfprintf
+	4         0.0080  libc-2.23.so             buffered_vfprintf
+	3         0.0060  libc-2.23.so             _IO_file_write@@GLIBC_2.4
+	3         0.0060  libc-2.23.so             new_do_write
+	3         0.0060  pi.O0.g                  calculate
+	2         0.0040  libc-2.23.so             _IO_file_overflow@@GLIBC_2.4
+	2         0.0040  libc-2.23.so             __overflow
+	2         0.0040  libc-2.23.so             putchar
+	2         0.0040  pi.O0.g                  MULTIPLY
+	2         0.0040  pi.O0.g                  SET
+	2         0.0040  pi.O0.g                  epilog
+	1         0.0020  libc-2.23.so             _IO_default_xsputn
+	1         0.0020  libc-2.23.so             _IO_file_xsputn@@GLIBC_2.4
+	1         0.0020  libc-2.23.so             fprintf
+	1         0.0020  libc-2.23.so             strchrnul
+	1         0.0020  pi.O0.g                  progress
 
-	operf --event=CPU_CYCLES:750000 ./pi.O0.g
-	opreport -l
+7)
 
-CPU: ARM Cortex-A9, speed 999 MHz (estimated)
-Counted CPU_CYCLES events (CPU cycle) with a unit mask of 0x00 (No unit mask) count 750000
-samples  %        image name               symbol name
-16731    33.2955  pi.O0.g                  __aeabi_uidiv
-14284    28.4259  pi.O0.g                  SUBTRACT
-12407    24.6905  pi.O0.g                  DIVIDE
-4470      8.8955  pi.O0.g                  LONGDIV
-1775      3.5323  pi.O0.g                  .divsi3_skip_div0_test
-467       0.9294  no-vmlinux               /no-vmlinux
-41        0.0816  pi.O0.g                  __divsi3
-26        0.0517  libc-2.23.so             memset
-11        0.0219  libc-2.23.so             write
-8         0.0159  libc-2.23.so             vfprintf
-4         0.0080  libc-2.23.so             buffered_vfprintf
-3         0.0060  libc-2.23.so             _IO_file_write@@GLIBC_2.4
-3         0.0060  libc-2.23.so             new_do_write
-3         0.0060  pi.O0.g                  calculate
-2         0.0040  libc-2.23.so             _IO_file_overflow@@GLIBC_2.4
-2         0.0040  libc-2.23.so             __overflow
-2         0.0040  libc-2.23.so             putchar
-2         0.0040  pi.O0.g                  MULTIPLY
-2         0.0040  pi.O0.g                  SET
-2         0.0040  pi.O0.g                  epilog
-1         0.0020  libc-2.23.so             _IO_default_xsputn
-1         0.0020  libc-2.23.so             _IO_file_xsputn@@GLIBC_2.4
-1         0.0020  libc-2.23.so             fprintf
-1         0.0020  libc-2.23.so             strchrnul
-1         0.0020  pi.O0.g                  progress
-
-$ opannotate --source pi.O0.g
+	a) 	
+	%%%%%
+		$ opannotate --source pi.O0.g
 
 Using /home/ubuntu/lab2_session/1.2/oprofile_data/samples/ for session-dir
 /* 
@@ -516,564 +518,566 @@ opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23
 
 
  /* check_match total:      1 2.6e-04 */
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	$ gcc -g -O3 pi.c -o pi.O3.g
+	$ operf --event=CPU_CYCLES:100000 ./pi.O3.g
+	$ opreport -l
+	CPU: ARM Cortex-A9, speed 999 MHz (estimated)
+	Counted CPU_CYCLES events (CPU cycle) with a unit mask of 0x00 (No unit mask) count 100000
+	samples  %        image name               symbol name
+	90344    69.4500  pi.O3.g                  calculate
+	20858    16.0341  pi.O3.g                  __aeabi_uidiv
+	13123    10.0880  pi.O3.g                  .divsi3_skip_div0_test
+	4551      3.4985  no-vmlinux               /no-vmlinux
+	481       0.3698  pi.O3.g                  __divsi3
+	367       0.2821  libc-2.23.so             memset
+	75        0.0577  libc-2.23.so             vfprintf
+	60        0.0461  libc-2.23.so             putchar
+	37        0.0284  libc-2.23.so             _IO_file_write@@GLIBC_2.4
+	28        0.0215  libc-2.23.so             write
+	26        0.0200  libc-2.23.so             new_do_write
+	23        0.0177  libc-2.23.so             _IO_file_overflow@@GLIBC_2.4
+	14        0.0108  libc-2.23.so             __memset_chk
+	12        0.0092  libc-2.23.so             __fprintf_chk
+	12        0.0092  libc-2.23.so             buffered_vfprintf
+	12        0.0092  libc-2.23.so             strchrnul
+	10        0.0077  libc-2.23.so             _IO_default_xsputn
+	10        0.0077  libc-2.23.so             _itoa_word
+	9         0.0069  libc-2.23.so             _IO_do_write@@GLIBC_2.4
+	9         0.0069  libc-2.23.so             _IO_file_xsputn@@GLIBC_2.4
+	8         0.0061  libc-2.23.so             __overflow
+	6         0.0046  libc-2.23.so             ____GI_memset_from_thumb
+	4         0.0031  libc-2.23.so             fputc
+	4         0.0031  pi.O3.g                  epilog
+	1        7.7e-04  ld-2.23.so               _dl_relocate_object
+	1        7.7e-04  libc-2.23.so             fwrite
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	Using /home/ubuntu/lab2_session/1.2/oprofile_data/samples/ for session-dir
+	/* 
+	 * Command line: opannotate --source pi.O3.g 
+	 * 
+	 * Interpretation of command line:
+	 * Output annotated source file with samples
+	 * Output all files
+	 * 
+	 * CPU: ARM Cortex-A9, speed 999 MHz (estimated)
+	 * Counted CPU_CYCLES events (CPU cycle) with a unit mask of 0x00 (No unit mask) count 100000
+	 */
+	/* 
+	 * Total samples for file : "/home/ubuntu/lab2_session/1.2/pi.c"
+	 * 
+	 *  90339 69.4461
+	 */
 
 
-7)
-
-	a) 
-CPU: ARM Cortex-A9, speed 999 MHz (estimated)
-Counted CPU_CYCLES events (CPU cycle) with a unit mask of 0x00 (No unit mask) count 100000
-samples  %        image name               symbol name
-90344    69.4500  pi.O3.g                  calculate
-20858    16.0341  pi.O3.g                  __aeabi_uidiv
-13123    10.0880  pi.O3.g                  .divsi3_skip_div0_test
-4551      3.4985  no-vmlinux               /no-vmlinux
-481       0.3698  pi.O3.g                  __divsi3
-367       0.2821  libc-2.23.so             memset
-75        0.0577  libc-2.23.so             vfprintf
-60        0.0461  libc-2.23.so             putchar
-37        0.0284  libc-2.23.so             _IO_file_write@@GLIBC_2.4
-28        0.0215  libc-2.23.so             write
-26        0.0200  libc-2.23.so             new_do_write
-23        0.0177  libc-2.23.so             _IO_file_overflow@@GLIBC_2.4
-14        0.0108  libc-2.23.so             __memset_chk
-12        0.0092  libc-2.23.so             __fprintf_chk
-12        0.0092  libc-2.23.so             buffered_vfprintf
-12        0.0092  libc-2.23.so             strchrnul
-10        0.0077  libc-2.23.so             _IO_default_xsputn
-10        0.0077  libc-2.23.so             _itoa_word
-9         0.0069  libc-2.23.so             _IO_do_write@@GLIBC_2.4
-9         0.0069  libc-2.23.so             _IO_file_xsputn@@GLIBC_2.4
-8         0.0061  libc-2.23.so             __overflow
-6         0.0046  libc-2.23.so             ____GI_memset_from_thumb
-4         0.0031  libc-2.23.so             fputc
-4         0.0031  pi.O3.g                  epilog
-1        7.7e-04  ld-2.23.so               _dl_relocate_object
-1        7.7e-04  libc-2.23.so             fwrite
-
-
-Using /home/ubuntu/lab2_session/1.2/oprofile_data/samples/ for session-dir
-/* 
- * Command line: opannotate --source pi.O3.g 
- * 
- * Interpretation of command line:
- * Output annotated source file with samples
- * Output all files
- * 
- * CPU: ARM Cortex-A9, speed 999 MHz (estimated)
- * Counted CPU_CYCLES events (CPU cycle) with a unit mask of 0x00 (No unit mask) count 100000
- */
-/* 
- * Total samples for file : "/home/ubuntu/lab2_session/1.2/pi.c"
- * 
- *  90339 69.4461
- */
-
-
-               :#include <memory.h>
-               :#include <stdio.h>
-               :#include <stdlib.h>
-               :
-               :int N, N4;
-               :signed char a[25480], b[25480], c[25480];
-               :
-               :void DIVIDE( signed char *x, int n )                           
-               :{                                                
-               :    int j, k;
-               :    unsigned q, r, u;
-               :    long v;
-               :
-               :    r = 0;                                       
-  9401  7.2268 :    for( k = 0; k <= N4; k++ )                  
-               :    {                                            
-  6593  5.0682 :        u = r * 10 + x[k];                       
-  6196  4.7630 :        q = u/n;                               
-  6221  4.7823 :        r = u - q * n;                           
- 18625 14.3176 :        x[k] = q;                                
-               :    }                                           
-               :}
-               :
-               :void LONGDIV( signed char *x, int n )                          
-               :{                                                
-               :    int j, k;
-               :    unsigned q, r, u;
-               :    long v;
-               :
-     2  0.0015 :    if( n < 6553 )                               
-               :    {                                            
-               :        r = 0;                                   
-   805  0.6188 :        for( k = 0; k <= N4; k++ )               
-               :        {                                        
-   858  0.6596 :            u = r * 10 + x[k];                   
-  1021  0.7849 :            q = u / n;                           
-    45  0.0346 :            r = u - q * n;                       
-   108  0.0830 :            x[k] = q;                            
-               :        }                                       
-               :    }                                            
-               :    else                                         
-               :    {                                            
-               :        r = 0;                                   
-  1267  0.9740 :        for( k = 0; k <= N4; k++ )              
-               :        {                                       
-  2097  1.6120 :            if( r < 6553 )                      
-               :            {                                   
-  2741  2.1071 :                u = r * 10 + x[k];              
-   888  0.6826 :                q = u / n;                      
-   165  0.1268 :                r = u - q * n;                  
-               :            }                                   
-               :            else                                
-               :            {                                   
-     2  0.0015 :                v = (long) r * 10 + x[k];       
-  1185  0.9109 :                q = v / n;                      
-               :                r = v - q * n;                  
-               :            }                                   
-   204  0.1568 :            x[k] = q;                           
-               :        }                                       
-               :    }                                           
-               :}
-               :
-               :void MULTIPLY( signed char *x, int n )                        
-               :{                                            
-               :    int j, k;
-               :    unsigned q, r, u;
-               :    long v;
-               :    r = 0;                                   
-     2  0.0015 :    for( k = N4; k >= 0; k-- )               
-               :    {                                        
-     1 7.7e-04 :        q = n * x[k] + r;                    
-               :        r = q / 10;                          
-     1 7.7e-04 :        x[k] = q - r * 10;                   
-               :    }                                        
-               :}
-               :
-               :void SET( signed char *x, int n )                              
-               :{                                                
-               :    memset( x, 0, N4 + 1 );                      
-     1 7.7e-04 :    x[0] = n;                                    
-               :}
-               :
-               :
-               :void SUBTRACT( signed char *x, signed char *y, signed char *z )                      
-               :{                                                
-               :    int j, k;
-               :    unsigned q, r, u;
-               :    long v;
-  4409  3.3893 :    for( k = N4; k >= 1; k-- )                   
-               :    {                                            
- 11613  8.9272 :        if( (x[k] = y[k] - z[k]) < 0 )           
-               :        {                                        
-  2630  2.0218 :            x[k] += 10;                          
- 13241 10.1787 :            z[k-1]++;                            
-               :        }                                        
-               :    }                                            
-               :    if( (x[k] = y[k] - z[k]) < 0 )           
-               :    {                                        
-     4  0.0031 :        x[k] += 10;                          
-               :    }                                        
-               :}
-               :
-               :
-               :void calculate( void );
-               :void progress( void );
-               :void epilog( void );
-               :
-               :
-               :int main( int argc, char *argv[] )
-               :{
-               :    N = 10000;
-               :
-               :    if( argc > 1 )
-               :        N = atoi(argv[1]);
-               :
-               :    setbuf(stdout, NULL);
-               :
-               :    calculate();
-               :
-               :    epilog();
-               :
-               :    return 0;
-               :}
-               :
-               :void calculate( void )
-               :{
-               :    int j;
-               :
-               :    N4 = N + 4; /* calculate total:  90344 69.4500 */
-               :
-               :    SET( a, 0 );
-               :    SET( b, 0 );
-               :
-     9  0.0069 :    for( j = 2 * N4 + 1; j >= 3; j -= 2 )
-               :    {
-               :        SET( c, 1 );
-               :        LONGDIV( c, j );
-               :
-               :        SUBTRACT( a, c, a );
-               :        DIVIDE( a, 25 );
-               :
-               :        SUBTRACT( b, c, b );
-               :        DIVIDE( b, 239 );
-               :        DIVIDE( b, 239 );
-               :
-               :        progress();
-               :    }
-               :
-               :    SET( c, 1 );
-               :
-               :    SUBTRACT( a, c, a );
-               :    DIVIDE( a, 5 );
-               :
-               :    SUBTRACT( b, c, b );
-               :    DIVIDE( b, 239 );
-               :
-               :    MULTIPLY( a, 4 );
-               :    SUBTRACT( a, a, b );
-               :    MULTIPLY( a, 4 );
-               :
-               :    progress();
-               :}
-               :
-               :/*
-               :
-               : N = 10000                      
-               : A = 0                          
-               : B = 0                          
-               : J = 2 * (N + 4) + 1            
-               : FOR J = J TO 3 STEP -2         
-               :     A = (1 / J - A) / 5 ^ 2    
-               :     B = (1 / J - B) / 239 ^ 2  
-               : NEXT J                         
-               : A = (1 - A) / 5                
-               : B = (1 - B) / 239              
-               : PI = (A * 4 - B) * 4           
-               :
-               :*/
-               :
-               :void progress( void )
-               :{
-               :    printf(".");
-               :}
-               :
-               :void epilog( void )
-               :{ /* epilog total:      4  0.0031 */
-               :    int j;
-               :
-               :    {
-               :        fprintf( stdout, " \n3.");
-               :        for( j = 1; j <= N; j++ )
-               :        {
-               :            fprintf( stdout, "%d", a[j]);
-     2  0.0015 :            if( j % 5  == 0 )
-     2  0.0015 :                if( j % 50 == 0 )
-               :                    if( j % 250  == 0 )
-               :                        fprintf( stdout, "    <%d>\n\n   ", j );
-               :                    else
-               :                        fprintf( stdout, "\n   " );
-               :                else
-               :                    fprintf( stdout, " " );
-               :        }
-               :    }
-               :}
-               :
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/string/../sysdeps/arm/memset.S
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/string/../sysdeps/arm/memset.S"
- * 
- *    367  0.2821
- */
+		       :#include <memory.h>
+		       :#include <stdio.h>
+		       :#include <stdlib.h>
+		       :
+		       :int N, N4;
+		       :signed char a[25480], b[25480], c[25480];
+		       :
+		       :void DIVIDE( signed char *x, int n )                           
+		       :{                                                
+		       :    int j, k;
+		       :    unsigned q, r, u;
+		       :    long v;
+		       :
+		       :    r = 0;                                       
+	  9401  7.2268 :    for( k = 0; k <= N4; k++ )                  
+		       :    {                                            
+	  6593  5.0682 :        u = r * 10 + x[k];                       
+	  6196  4.7630 :        q = u/n;                               
+	  6221  4.7823 :        r = u - q * n;                           
+	 18625 14.3176 :        x[k] = q;                                
+		       :    }                                           
+		       :}
+		       :
+		       :void LONGDIV( signed char *x, int n )                          
+		       :{                                                
+		       :    int j, k;
+		       :    unsigned q, r, u;
+		       :    long v;
+		       :
+	     2  0.0015 :    if( n < 6553 )                               
+		       :    {                                            
+		       :        r = 0;                                   
+	   805  0.6188 :        for( k = 0; k <= N4; k++ )               
+		       :        {                                        
+	   858  0.6596 :            u = r * 10 + x[k];                   
+	  1021  0.7849 :            q = u / n;                           
+	    45  0.0346 :            r = u - q * n;                       
+	   108  0.0830 :            x[k] = q;                            
+		       :        }                                       
+		       :    }                                            
+		       :    else                                         
+		       :    {                                            
+		       :        r = 0;                                   
+	  1267  0.9740 :        for( k = 0; k <= N4; k++ )              
+		       :        {                                       
+	  2097  1.6120 :            if( r < 6553 )                      
+		       :            {                                   
+	  2741  2.1071 :                u = r * 10 + x[k];              
+	   888  0.6826 :                q = u / n;                      
+	   165  0.1268 :                r = u - q * n;                  
+		       :            }                                   
+		       :            else                                
+		       :            {                                   
+	     2  0.0015 :                v = (long) r * 10 + x[k];       
+	  1185  0.9109 :                q = v / n;                      
+		       :                r = v - q * n;                  
+		       :            }                                   
+	   204  0.1568 :            x[k] = q;                           
+		       :        }                                       
+		       :    }                                           
+		       :}
+		       :
+		       :void MULTIPLY( signed char *x, int n )                        
+		       :{                                            
+		       :    int j, k;
+		       :    unsigned q, r, u;
+		       :    long v;
+		       :    r = 0;                                   
+	     2  0.0015 :    for( k = N4; k >= 0; k-- )               
+		       :    {                                        
+	     1 7.7e-04 :        q = n * x[k] + r;                    
+		       :        r = q / 10;                          
+	     1 7.7e-04 :        x[k] = q - r * 10;                   
+		       :    }                                        
+		       :}
+		       :
+		       :void SET( signed char *x, int n )                              
+		       :{                                                
+		       :    memset( x, 0, N4 + 1 );                      
+	     1 7.7e-04 :    x[0] = n;                                    
+		       :}
+		       :
+		       :
+		       :void SUBTRACT( signed char *x, signed char *y, signed char *z )                      
+		       :{                                                
+		       :    int j, k;
+		       :    unsigned q, r, u;
+		       :    long v;
+	  4409  3.3893 :    for( k = N4; k >= 1; k-- )                   
+		       :    {                                            
+	 11613  8.9272 :        if( (x[k] = y[k] - z[k]) < 0 )           
+		       :        {                                        
+	  2630  2.0218 :            x[k] += 10;                          
+	 13241 10.1787 :            z[k-1]++;                            
+		       :        }                                        
+		       :    }                                            
+		       :    if( (x[k] = y[k] - z[k]) < 0 )           
+		       :    {                                        
+	     4  0.0031 :        x[k] += 10;                          
+		       :    }                                        
+		       :}
+		       :
+		       :
+		       :void calculate( void );
+		       :void progress( void );
+		       :void epilog( void );
+		       :
+		       :
+		       :int main( int argc, char *argv[] )
+		       :{
+		       :    N = 10000;
+		       :
+		       :    if( argc > 1 )
+		       :        N = atoi(argv[1]);
+		       :
+		       :    setbuf(stdout, NULL);
+		       :
+		       :    calculate();
+		       :
+		       :    epilog();
+		       :
+		       :    return 0;
+		       :}
+		       :
+		       :void calculate( void )
+		       :{
+		       :    int j;
+		       :
+		       :    N4 = N + 4; /* calculate total:  90344 69.4500 */
+		       :
+		       :    SET( a, 0 );
+		       :    SET( b, 0 );
+		       :
+	     9  0.0069 :    for( j = 2 * N4 + 1; j >= 3; j -= 2 )
+		       :    {
+		       :        SET( c, 1 );
+		       :        LONGDIV( c, j );
+		       :
+		       :        SUBTRACT( a, c, a );
+		       :        DIVIDE( a, 25 );
+		       :
+		       :        SUBTRACT( b, c, b );
+		       :        DIVIDE( b, 239 );
+		       :        DIVIDE( b, 239 );
+		       :
+		       :        progress();
+		       :    }
+		       :
+		       :    SET( c, 1 );
+		       :
+		       :    SUBTRACT( a, c, a );
+		       :    DIVIDE( a, 5 );
+		       :
+		       :    SUBTRACT( b, c, b );
+		       :    DIVIDE( b, 239 );
+		       :
+		       :    MULTIPLY( a, 4 );
+		       :    SUBTRACT( a, a, b );
+		       :    MULTIPLY( a, 4 );
+		       :
+		       :    progress();
+		       :}
+		       :
+		       :/*
+		       :
+		       : N = 10000                      
+		       : A = 0                          
+		       : B = 0                          
+		       : J = 2 * (N + 4) + 1            
+		       : FOR J = J TO 3 STEP -2         
+		       :     A = (1 / J - A) / 5 ^ 2    
+		       :     B = (1 / J - B) / 239 ^ 2  
+		       : NEXT J                         
+		       : A = (1 - A) / 5                
+		       : B = (1 - B) / 239              
+		       : PI = (A * 4 - B) * 4           
+		       :
+		       :*/
+		       :
+		       :void progress( void )
+		       :{
+		       :    printf(".");
+		       :}
+		       :
+		       :void epilog( void )
+		       :{ /* epilog total:      4  0.0031 */
+		       :    int j;
+		       :
+		       :    {
+		       :        fprintf( stdout, " \n3.");
+		       :        for( j = 1; j <= N; j++ )
+		       :        {
+		       :            fprintf( stdout, "%d", a[j]);
+	     2  0.0015 :            if( j % 5  == 0 )
+	     2  0.0015 :                if( j % 50 == 0 )
+		       :                    if( j % 250  == 0 )
+		       :                        fprintf( stdout, "    <%d>\n\n   ", j );
+		       :                    else
+		       :                        fprintf( stdout, "\n   " );
+		       :                else
+		       :                    fprintf( stdout, " " );
+		       :        }
+		       :    }
+		       :}
+		       :
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/string/../sysdeps/arm/memset.S
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/string/../sysdeps/arm/memset.S"
+	 * 
+	 *    367  0.2821
+	 */
 
 
- /* memset total:    367  0.2821 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/fileops.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/fileops.c"
- * 
- *    104  0.0799
- */
+	 /* memset total:    367  0.2821 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/fileops.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/fileops.c"
+	 * 
+	 *    104  0.0799
+	 */
 
 
- /* _IO_do_write@@GLIBC_2.4 total:      9  0.0069 */
- /* new_do_write total:     26  0.0200 */
- /* _IO_file_overflow@@GLIBC_2.4 total:     23  0.0177 */
- /* _IO_file_write@@GLIBC_2.4 total:     37  0.0284 */
- /* _IO_file_xsputn@@GLIBC_2.4 total:      9  0.0069 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/stdio-common/vfprintf.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/stdio-common/vfprintf.c"
- * 
- *     86  0.0661
- */
+	 /* _IO_do_write@@GLIBC_2.4 total:      9  0.0069 */
+	 /* new_do_write total:     26  0.0200 */
+	 /* _IO_file_overflow@@GLIBC_2.4 total:     23  0.0177 */
+	 /* _IO_file_write@@GLIBC_2.4 total:     37  0.0284 */
+	 /* _IO_file_xsputn@@GLIBC_2.4 total:      9  0.0069 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/stdio-common/vfprintf.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/stdio-common/vfprintf.c"
+	 * 
+	 *     86  0.0661
+	 */
 
 
- /* vfprintf total:     75  0.0577 */
- /* buffered_vfprintf total:     12  0.0092 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/putchar.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/putchar.c"
- * 
- *     51  0.0392
- */
+	 /* vfprintf total:     75  0.0577 */
+	 /* buffered_vfprintf total:     12  0.0092 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/putchar.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/putchar.c"
+	 * 
+	 *     51  0.0392
+	 */
 
 
- /* putchar total:     60  0.0461 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/io/../sysdeps/unix/syscall-template.S
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/io/../sysdeps/unix/syscall-template.S"
- * 
- *     28  0.0215
- */
+	 /* putchar total:     60  0.0461 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/io/../sysdeps/unix/syscall-template.S
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/io/../sysdeps/unix/syscall-template.S"
+	 * 
+	 *     28  0.0215
+	 */
 
 
- /* write total:     28  0.0215 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/genops.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/genops.c"
- * 
- *     18  0.0138
- */
+	 /* write total:     28  0.0215 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/genops.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/genops.c"
+	 * 
+	 *     18  0.0138
+	 */
 
 
- /* __overflow total:      8  0.0061 */
- /* _IO_default_xsputn total:     10  0.0077 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/debug/memset_chk.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/debug/memset_chk.c"
- * 
- *     14  0.0108
- */
+	 /* __overflow total:      8  0.0061 */
+	 /* _IO_default_xsputn total:     10  0.0077 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/debug/memset_chk.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/debug/memset_chk.c"
+	 * 
+	 *     14  0.0108
+	 */
 
 
- /* __memset_chk total:     14  0.0108 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/string/strchrnul.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/string/strchrnul.c"
- * 
- *     12  0.0092
- */
+	 /* __memset_chk total:     14  0.0108 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/string/strchrnul.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/string/strchrnul.c"
+	 * 
+	 *     12  0.0092
+	 */
 
 
- /* strchrnul total:     12  0.0092 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/stdio-common/_itoa.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/stdio-common/_itoa.c"
- * 
- *     10  0.0077
- */
+	 /* strchrnul total:     12  0.0092 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/stdio-common/_itoa.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/stdio-common/_itoa.c"
+	 * 
+	 *     10  0.0077
+	 */
 
 
- /* _itoa_word total:     10  0.0077 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/libioP.h
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/libioP.h"
- * 
- *     10  0.0077
- */
+	 /* _itoa_word total:     10  0.0077 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/libioP.h
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/libioP.h"
+	 * 
+	 *     10  0.0077
+	 */
 
 
-/* 
- * Total samples for file : "/usr/include/arm-linux-gnueabihf/bits/string3.h"
- * 
- *      9  0.0069
- */
+	/* 
+	 * Total samples for file : "/usr/include/arm-linux-gnueabihf/bits/string3.h"
+	 * 
+	 *      9  0.0069
+	 */
 
 
-               :/* Copyright (C) 2004-2016 Free Software Foundation, Inc.
-               :   This file is part of the GNU C Library.
-               :
-               :   The GNU C Library is free software; you can redistribute it and/or
-               :   modify it under the terms of the GNU Lesser General Public
-               :   License as published by the Free Software Foundation; either
-               :   version 2.1 of the License, or (at your option) any later version.
-               :
-               :   The GNU C Library is distributed in the hope that it will be useful,
-               :   but WITHOUT ANY WARRANTY; without even the implied warranty of
-               :   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-               :   Lesser General Public License for more details.
-               :
-               :   You should have received a copy of the GNU Lesser General Public
-               :   License along with the GNU C Library; if not, see
-               :   <http://www.gnu.org/licenses/>.  */
-               :
-               :#ifndef _STRING_H
-               :# error "Never use <bits/string3.h> directly; include <string.h> instead."
-               :#endif
-               :
-               :#if !__GNUC_PREREQ (5,0)
-               :__warndecl (__warn_memset_zero_len,
-               :	    "memset used with constant zero length parameter; this could be due to transposed parameters");
-               :#endif
-               :
-               :#ifndef __cplusplus
-               :/* XXX This is temporarily.  We should not redefine any of the symbols
-               :   and instead integrate the error checking into the original
-               :   definitions.  */
-               :# undef memcpy
-               :# undef memmove
-               :# undef memset
-               :# undef strcat
-               :# undef strcpy
-               :# undef strncat
-               :# undef strncpy
-               :# ifdef __USE_GNU
-               :#  undef mempcpy
-               :#  undef stpcpy
-               :# endif
-               :# ifdef __USE_MISC
-               :#  undef bcopy
-               :#  undef bzero
-               :# endif
-               :#endif
-               :
-               :
-               :__fortify_function void *
-               :__NTH (memcpy (void *__restrict __dest, const void *__restrict __src,
-               :	       size_t __len))
-               :{
-               :  return __builtin___memcpy_chk (__dest, __src, __len, __bos0 (__dest));
-               :}
-               :
-               :__fortify_function void *
-               :__NTH (memmove (void *__dest, const void *__src, size_t __len))
-               :{
-               :  return __builtin___memmove_chk (__dest, __src, __len, __bos0 (__dest));
-               :}
-               :
-               :#ifdef __USE_GNU
-               :__fortify_function void *
-               :__NTH (mempcpy (void *__restrict __dest, const void *__restrict __src,
-               :		size_t __len))
-               :{
-               :  return __builtin___mempcpy_chk (__dest, __src, __len, __bos0 (__dest));
-               :}
-               :#endif
-               :
-               :
-               :/* The first two tests here help to catch a somewhat common problem
-               :   where the second and third parameter are transposed.  This is
-               :   especially problematic if the intended fill value is zero.  In this
-               :   case no work is done at all.  We detect these problems by referring
-               :   non-existing functions.  */
-               :__fortify_function void *
-               :__NTH (memset (void *__dest, int __ch, size_t __len))
-               :{
-               :  /* GCC-5.0 and newer implements these checks in the compiler, so we don't
-               :     need them here.  */
-               :#if !__GNUC_PREREQ (5,0)
-               :  if (__builtin_constant_p (__len) && __len == 0
-               :      && (!__builtin_constant_p (__ch) || __ch != 0))
-               :    {
-               :      __warn_memset_zero_len ();
-               :      return __dest;
-               :    }
-               :#endif
-     9  0.0069 :  return __builtin___memset_chk (__dest, __ch, __len, __bos0 (__dest));
-               :}
-               :
-               :#ifdef __USE_MISC
-               :__fortify_function void
-               :__NTH (bcopy (const void *__src, void *__dest, size_t __len))
-               :{
-               :  (void) __builtin___memmove_chk (__dest, __src, __len, __bos0 (__dest));
-               :}
-               :
-               :__fortify_function void
-               :__NTH (bzero (void *__dest, size_t __len))
-               :{
-               :  (void) __builtin___memset_chk (__dest, '\0', __len, __bos0 (__dest));
-               :}
-               :#endif
-               :
-               :__fortify_function char *
-               :__NTH (strcpy (char *__restrict __dest, const char *__restrict __src))
-               :{
-               :  return __builtin___strcpy_chk (__dest, __src, __bos (__dest));
-               :}
-               :
-               :#ifdef __USE_GNU
-               :__fortify_function char *
-               :__NTH (stpcpy (char *__restrict __dest, const char *__restrict __src))
-               :{
-               :  return __builtin___stpcpy_chk (__dest, __src, __bos (__dest));
-               :}
-               :#endif
-               :
-               :
-               :__fortify_function char *
-               :__NTH (strncpy (char *__restrict __dest, const char *__restrict __src,
-               :		size_t __len))
-               :{
-               :  return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
-               :}
-               :
-               :// XXX We have no corresponding builtin yet.
-               :extern char *__stpncpy_chk (char *__dest, const char *__src, size_t __n,
-               :			    size_t __destlen) __THROW;
-               :extern char *__REDIRECT_NTH (__stpncpy_alias, (char *__dest, const char *__src,
-               :					       size_t __n), stpncpy);
-               :
-               :__fortify_function char *
-               :__NTH (stpncpy (char *__dest, const char *__src, size_t __n))
-               :{
-               :  if (__bos (__dest) != (size_t) -1
-               :      && (!__builtin_constant_p (__n) || __n > __bos (__dest)))
-               :    return __stpncpy_chk (__dest, __src, __n, __bos (__dest));
-               :  return __stpncpy_alias (__dest, __src, __n);
-               :}
-               :
-               :
-               :__fortify_function char *
-               :__NTH (strcat (char *__restrict __dest, const char *__restrict __src))
-               :{
-               :  return __builtin___strcat_chk (__dest, __src, __bos (__dest));
-               :}
-               :
-               :
-               :__fortify_function char *
-               :__NTH (strncat (char *__restrict __dest, const char *__restrict __src,
-               :		size_t __len))
-               :{
-               :  return __builtin___strncat_chk (__dest, __src, __len, __bos (__dest));
-               :}
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/debug/fprintf_chk.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/debug/fprintf_chk.c"
- * 
- *      9  0.0069
- */
+		       :/* Copyright (C) 2004-2016 Free Software Foundation, Inc.
+		       :   This file is part of the GNU C Library.
+		       :
+		       :   The GNU C Library is free software; you can redistribute it and/or
+		       :   modify it under the terms of the GNU Lesser General Public
+		       :   License as published by the Free Software Foundation; either
+		       :   version 2.1 of the License, or (at your option) any later version.
+		       :
+		       :   The GNU C Library is distributed in the hope that it will be useful,
+		       :   but WITHOUT ANY WARRANTY; without even the implied warranty of
+		       :   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+		       :   Lesser General Public License for more details.
+		       :
+		       :   You should have received a copy of the GNU Lesser General Public
+		       :   License along with the GNU C Library; if not, see
+		       :   <http://www.gnu.org/licenses/>.  */
+		       :
+		       :#ifndef _STRING_H
+		       :# error "Never use <bits/string3.h> directly; include <string.h> instead."
+		       :#endif
+		       :
+		       :#if !__GNUC_PREREQ (5,0)
+		       :__warndecl (__warn_memset_zero_len,
+		       :	    "memset used with constant zero length parameter; this could be due to transposed parameters");
+		       :#endif
+		       :
+		       :#ifndef __cplusplus
+		       :/* XXX This is temporarily.  We should not redefine any of the symbols
+		       :   and instead integrate the error checking into the original
+		       :   definitions.  */
+		       :# undef memcpy
+		       :# undef memmove
+		       :# undef memset
+		       :# undef strcat
+		       :# undef strcpy
+		       :# undef strncat
+		       :# undef strncpy
+		       :# ifdef __USE_GNU
+		       :#  undef mempcpy
+		       :#  undef stpcpy
+		       :# endif
+		       :# ifdef __USE_MISC
+		       :#  undef bcopy
+		       :#  undef bzero
+		       :# endif
+		       :#endif
+		       :
+		       :
+		       :__fortify_function void *
+		       :__NTH (memcpy (void *__restrict __dest, const void *__restrict __src,
+		       :	       size_t __len))
+		       :{
+		       :  return __builtin___memcpy_chk (__dest, __src, __len, __bos0 (__dest));
+		       :}
+		       :
+		       :__fortify_function void *
+		       :__NTH (memmove (void *__dest, const void *__src, size_t __len))
+		       :{
+		       :  return __builtin___memmove_chk (__dest, __src, __len, __bos0 (__dest));
+		       :}
+		       :
+		       :#ifdef __USE_GNU
+		       :__fortify_function void *
+		       :__NTH (mempcpy (void *__restrict __dest, const void *__restrict __src,
+		       :		size_t __len))
+		       :{
+		       :  return __builtin___mempcpy_chk (__dest, __src, __len, __bos0 (__dest));
+		       :}
+		       :#endif
+		       :
+		       :
+		       :/* The first two tests here help to catch a somewhat common problem
+		       :   where the second and third parameter are transposed.  This is
+		       :   especially problematic if the intended fill value is zero.  In this
+		       :   case no work is done at all.  We detect these problems by referring
+		       :   non-existing functions.  */
+		       :__fortify_function void *
+		       :__NTH (memset (void *__dest, int __ch, size_t __len))
+		       :{
+		       :  /* GCC-5.0 and newer implements these checks in the compiler, so we don't
+		       :     need them here.  */
+		       :#if !__GNUC_PREREQ (5,0)
+		       :  if (__builtin_constant_p (__len) && __len == 0
+		       :      && (!__builtin_constant_p (__ch) || __ch != 0))
+		       :    {
+		       :      __warn_memset_zero_len ();
+		       :      return __dest;
+		       :    }
+		       :#endif
+	     9  0.0069 :  return __builtin___memset_chk (__dest, __ch, __len, __bos0 (__dest));
+		       :}
+		       :
+		       :#ifdef __USE_MISC
+		       :__fortify_function void
+		       :__NTH (bcopy (const void *__src, void *__dest, size_t __len))
+		       :{
+		       :  (void) __builtin___memmove_chk (__dest, __src, __len, __bos0 (__dest));
+		       :}
+		       :
+		       :__fortify_function void
+		       :__NTH (bzero (void *__dest, size_t __len))
+		       :{
+		       :  (void) __builtin___memset_chk (__dest, '\0', __len, __bos0 (__dest));
+		       :}
+		       :#endif
+		       :
+		       :__fortify_function char *
+		       :__NTH (strcpy (char *__restrict __dest, const char *__restrict __src))
+		       :{
+		       :  return __builtin___strcpy_chk (__dest, __src, __bos (__dest));
+		       :}
+		       :
+		       :#ifdef __USE_GNU
+		       :__fortify_function char *
+		       :__NTH (stpcpy (char *__restrict __dest, const char *__restrict __src))
+		       :{
+		       :  return __builtin___stpcpy_chk (__dest, __src, __bos (__dest));
+		       :}
+		       :#endif
+		       :
+		       :
+		       :__fortify_function char *
+		       :__NTH (strncpy (char *__restrict __dest, const char *__restrict __src,
+		       :		size_t __len))
+		       :{
+		       :  return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
+		       :}
+		       :
+		       :// XXX We have no corresponding builtin yet.
+		       :extern char *__stpncpy_chk (char *__dest, const char *__src, size_t __n,
+		       :			    size_t __destlen) __THROW;
+		       :extern char *__REDIRECT_NTH (__stpncpy_alias, (char *__dest, const char *__src,
+		       :					       size_t __n), stpncpy);
+		       :
+		       :__fortify_function char *
+		       :__NTH (stpncpy (char *__dest, const char *__src, size_t __n))
+		       :{
+		       :  if (__bos (__dest) != (size_t) -1
+		       :      && (!__builtin_constant_p (__n) || __n > __bos (__dest)))
+		       :    return __stpncpy_chk (__dest, __src, __n, __bos (__dest));
+		       :  return __stpncpy_alias (__dest, __src, __n);
+		       :}
+		       :
+		       :
+		       :__fortify_function char *
+		       :__NTH (strcat (char *__restrict __dest, const char *__restrict __src))
+		       :{
+		       :  return __builtin___strcat_chk (__dest, __src, __bos (__dest));
+		       :}
+		       :
+		       :
+		       :__fortify_function char *
+		       :__NTH (strncat (char *__restrict __dest, const char *__restrict __src,
+		       :		size_t __len))
+		       :{
+		       :  return __builtin___strncat_chk (__dest, __src, __len, __bos (__dest));
+		       :}
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/debug/fprintf_chk.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/debug/fprintf_chk.c"
+	 * 
+	 *      9  0.0069
+	 */
 
 
- /* __fprintf_chk total:     12  0.0092 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/fputc.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/fputc.c"
- * 
- *      4  0.0031
- */
+	 /* __fprintf_chk total:     12  0.0092 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/fputc.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/fputc.c"
+	 * 
+	 *      4  0.0031
+	 */
 
 
- /* fputc total:      4  0.0031 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/debug/../libio/libioP.h
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/debug/../libio/libioP.h"
- * 
- *      3  0.0023
- */
+	 /* fputc total:      4  0.0031 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/debug/../libio/libioP.h
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/debug/../libio/libioP.h"
+	 * 
+	 *      3  0.0023
+	 */
 
 
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/stdio-common/printf-parse.h
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/stdio-common/printf-parse.h"
- * 
- *      1 7.7e-04
- */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/stdio-common/printf-parse.h
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/stdio-common/printf-parse.h"
+	 * 
+	 *      1 7.7e-04
+	 */
 
 
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/elf/../sysdeps/arm/dl-machine.h
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/elf/../sysdeps/arm/dl-machine.h"
- * 
- *      1 7.7e-04
- */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/elf/../sysdeps/arm/dl-machine.h
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/elf/../sysdeps/arm/dl-machine.h"
+	 * 
+	 *      1 7.7e-04
+	 */
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 8) 
 
