@@ -1,28 +1,37 @@
 1.1
 2)
 	a) 
+	Genero el ejecutable con optimización -O0
 	$ gcc -O0 pi.c -o pi.O0
 
 	b)
+	Ejecuto el ejecutable pi.O0 y guardo el resultado en pi.0_time
 	$ /usr/bin/time -o pi.0_time ./pi.O0
-	55.69user 0.18system 0:55.89elapsed 99%CPU (0avgtext+0avgdata 852maxresident)k
-0inputs+0outputs (0major+64minor)pagefaults 0swaps
+	$ cat pi.0_time 
+		55.69user 0.18system 0:55.89elapsed 99%CPU (0avgtext+0avgdata 852maxresident)k
+		0inputs+0outputs (0major+64minor)pagefaults 0swaps
 
 
 	c)
-	$ cat pi.0_time  
 	El %CPU es el tanto por ciento de CPU usada para ejecutar el programa
 3)
 	a)
+	Genero los ejecutables correspondientes
 	$ gcc -O1 pi.c -o pi.O1
 	$ gcc -O2 pi.c -o pi.O2
 	$ gcc -O3 pi.c -o pi.O3
-	/usr/bin/time -o pi.3_time ./pi.O3
-	17.80user 0.16system 0:17.99elapsed 99%CPU (0avgtext+0avgdata 984maxresident)k
-0inputs+0outputs (0major+66minor)pagefaults 0swaps
+	
+	Ejecuto el ejecutable pi.03 y guardo el resultado en pi.3_time
+	$/usr/bin/time -o pi.3_time ./pi.O3
+	$ cat pi.3_time  
+		17.80user 0.16system 0:17.99elapsed 99%CPU (0avgtext+0avgdata 984maxresident)k
+		0inputs+0outputs (0major+66minor)pagefaults 0swaps
+	Vemos que el resultado es diferente en el tiempo usado por el usuario y el sistema, y por lo tanto, en el elapsed time. 
+	Esto es debido a que ha habido unas optimizaciones en el código y ahora se ejecuta más rápido
 
 
-	b) i c) 
+	b) i c)
+	He añadido un tipo de formato diferente para ver el resultado como quiero para evaluar las diferencias mejor
 	$ /usr/bin/time -o pi.0_time -f "Elapsed time: %e  User: %U  System: %S " ./pi.O0 
 	$ /usr/bin/time -o pi.3_time -f "Elapsed time: %e  User: %U  System: %S " ./pi.O3
 
