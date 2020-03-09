@@ -169,361 +169,369 @@
 
 7)
 
-	a) 	
-	%%%%%
-		$ opannotate --source pi.O0.g
+	a) 
+	Las principales diferencias están en la columna samples y en las funciones de las que se han tomado muestras (samples).
+	Con opreport y -O3 vemos que las funciones DIVIDE, SUBSTRACT, etc, no son mostradas. Esto es porque no hay llamadas hacia estas
+	funciones, puesto que al haber hecho inline se ha copiado el código de las funciones donde se llamaban anteriormente. Por ello, 
+	con opannotate vemos que para -O0 si vemos el recuento de muestras justo donde empieza cada una de las funciones nombradas 
+	anteriormente, pero no para -O3. En cambio si hay recuento del código de cada una de ellas. Porque el código igualmente se 
+	ejecuta. Por último, hay diferencias de recuentos en los "for" por una optimización del -O3 sobre los bucles. Esto provoca una 
+	disminución de recuento sobre ellos.
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+	$ opannotate --source pi.O0.g
 
-Using /home/ubuntu/lab2_session/1.2/oprofile_data/samples/ for session-dir
-/* 
- * Command line: opannotate --source pi.O0.g 
- * 
- * Interpretation of command line:
- * Output annotated source file with samples
- * Output all files
- * 
- * CPU: ARM Cortex-A9, speed 999 MHz (estimated)
- * Counted CPU_CYCLES events (CPU cycle) with a unit mask of 0x00 (No unit mask) count 100000
- */
-/* 
- * Total samples for file : "/home/ubuntu/lab2_session/1.2/pi.c"
- * 
- * 239215 61.7085
- */
-
-
-               :#include <memory.h>
-               :#include <stdio.h>
-               :#include <stdlib.h>
-               :
-               :int N, N4;
-               :signed char a[25480], b[25480], c[25480];
-               :
-               :void DIVIDE( signed char *x, int n )                           
-     8  0.0021 :{                                                 /* DIVIDE total:  94519 24.3824 */
-               :    int j, k;
-               :    unsigned q, r, u;
-               :    long v;
-               :
-               :    r = 0;                                       
- 23800  6.1395 :    for( k = 0; k <= N4; k++ )                  
-               :    {                                            
- 21718  5.6024 :        u = r * 10 + x[k];                       
- 20615  5.3179 :        q = u/n;                               
- 14237  3.6726 :        r = u - q * n;                           
- 14137  3.6468 :        x[k] = q;                                
-               :    }                                           
-     4  0.0010 :}
-               :
-               :void LONGDIV( signed char *x, int n )                          
-     2 5.2e-04 :{                                                 /* LONGDIV total:  34861  8.9928 */
-               :    int j, k;
-               :    unsigned q, r, u;
-               :    long v;
-               :
-               :    if( n < 6553 )                               
-               :    {                                            
-               :        r = 0;                                   
-  2663  0.6870 :        for( k = 0; k <= N4; k++ )               
-               :        {                                        
-  2640  0.6810 :            u = r * 10 + x[k];                   
-  2262  0.5835 :            q = u / n;                           
-  1499  0.3867 :            r = u - q * n;                       
-  1471  0.3795 :            x[k] = q;                            
-               :        }                                       
-               :    }                                            
-               :    else                                         
-               :    {                                            
-               :        r = 0;                                   
-  6151  1.5867 :        for( k = 0; k <= N4; k++ )              
-               :        {                                       
-  2581  0.6658 :            if( r < 6553 )                      
-               :            {                                   
-  4328  1.1165 :                u = r * 10 + x[k];              
-  1846  0.4762 :                q = u / n;                      
-  1500  0.3869 :                r = u - q * n;                  
-               :            }                                   
-               :            else                                
-               :            {                                   
-  3320  0.8564 :                v = (long) r * 10 + x[k];       
-  1037  0.2675 :                q = v / n;                      
-   940  0.2425 :                r = v - q * n;                  
-               :            }                                   
-  2619  0.6756 :            x[k] = q;                           
-               :        }                                       
-               :    }                                           
-     2 5.2e-04 :}
-               :
-               :void MULTIPLY( signed char *x, int n )                        
-               :{                                             /* MULTIPLY total:     10  0.0026 */
-               :    int j, k;
-               :    unsigned q, r, u;
-               :    long v;
-               :    r = 0;                                   
-               :    for( k = N4; k >= 0; k-- )               
-               :    {                                        
-     1 2.6e-04 :        q = n * x[k] + r;                    
-     2 5.2e-04 :        r = q / 10;                          
-     7  0.0018 :        x[k] = q - r * 10;                   
-               :    }                                        
-               :}
-               :
-               :void SET( signed char *x, int n )                              
-     5  0.0013 :{                                                 /* SET total:      7  0.0018 */
-               :    memset( x, 0, N4 + 1 );                      
-     1 2.6e-04 :    x[0] = n;                                    
-     1 2.6e-04 :}
-               :
-               :
-               :void SUBTRACT( signed char *x, signed char *y, signed char *z )                      
-     3 7.7e-04 :{                                                 /* SUBTRACT total: 109775 28.3179 */
-               :    int j, k;
-               :    unsigned q, r, u;
-               :    long v;
- 24639  6.3559 :    for( k = N4; k >= 1; k-- )                   
-               :    {                                            
- 46029 11.8738 :        if( (x[k] = y[k] - z[k]) < 0 )           
-               :        {                                        
- 25189  6.4978 :            x[k] += 10;                          
- 13903  3.5865 :            z[k-1]++;                            
-               :        }                                        
-               :    }                                            
-     8  0.0021 :    if( (x[k] = y[k] - z[k]) < 0 )           
-               :    {                                        
-               :        x[k] += 10;                          
-               :    }                                        
-     4  0.0010 :}
-               :
-               :
-               :void calculate( void );
-               :void progress( void );
-               :void epilog( void );
-               :
-               :
-               :int main( int argc, char *argv[] )
-               :{
-               :    N = 10000;
-               :
-               :    if( argc > 1 )
-               :        N = atoi(argv[1]);
-               :
-               :    setbuf(stdout, NULL);
-               :
-               :    calculate();
-               :
-               :    epilog();
-               :
-               :    return 0;
-               :}
-               :
-               :void calculate( void )
-               :{ /* calculate total:     22  0.0057 */
-               :    int j;
-               :
-               :    N4 = N + 4;
-               :
-               :    SET( a, 0 );
-               :    SET( b, 0 );
-               :
-     2 5.2e-04 :    for( j = 2 * N4 + 1; j >= 3; j -= 2 )
-               :    {
-     2 5.2e-04 :        SET( c, 1 );
-     3 7.7e-04 :        LONGDIV( c, j );
-               :
-     2 5.2e-04 :        SUBTRACT( a, c, a );
-     3 7.7e-04 :        DIVIDE( a, 25 );
-               :
-     2 5.2e-04 :        SUBTRACT( b, c, b );
-     4  0.0010 :        DIVIDE( b, 239 );
-     1 2.6e-04 :        DIVIDE( b, 239 );
-               :
-     3 7.7e-04 :        progress();
-               :    }
-               :
-               :    SET( c, 1 );
-               :
-               :    SUBTRACT( a, c, a );
-               :    DIVIDE( a, 5 );
-               :
-               :    SUBTRACT( b, c, b );
-               :    DIVIDE( b, 239 );
-               :
-               :    MULTIPLY( a, 4 );
-               :    SUBTRACT( a, a, b );
-               :    MULTIPLY( a, 4 );
-               :
-               :    progress();
-               :}
-               :
-               :/*
-               :
-               : N = 10000                      
-               : A = 0                          
-               : B = 0                          
-               : J = 2 * (N + 4) + 1            
-               : FOR J = J TO 3 STEP -2         
-               :     A = (1 / J - A) / 5 ^ 2    
-               :     B = (1 / J - B) / 239 ^ 2  
-               : NEXT J                         
-               : A = (1 - A) / 5                
-               : B = (1 - B) / 239              
-               : PI = (A * 4 - B) * 4           
-               :
-               :*/
-               :
-               :void progress( void )
-     3 7.7e-04 :{ /* progress total:      5  0.0013 */
-               :    printf(".");
-     2 5.2e-04 :}
-               :
-               :void epilog( void )
-               :{ /* epilog total:     16  0.0041 */
-               :    int j;
-               :
-               :    {
-               :        fprintf( stdout, " \n3.");
-     4  0.0010 :        for( j = 1; j <= N; j++ )
-               :        {
-     5  0.0013 :            fprintf( stdout, "%d", a[j]);
-     7  0.0018 :            if( j % 5  == 0 )
-               :                if( j % 50 == 0 )
-               :                    if( j % 250  == 0 )
-               :                        fprintf( stdout, "    <%d>\n\n   ", j );
-               :                    else
-               :                        fprintf( stdout, "\n   " );
-               :                else
-               :                    fprintf( stdout, " " );
-               :        }
-               :    }
-               :}
-               :
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/string/../sysdeps/arm/memset.S
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/string/../sysdeps/arm/memset.S"
- * 
- *    199  0.0513
- */
+	Using /home/ubuntu/lab2_session/1.2/oprofile_data/samples/ for session-dir
+	/* 
+	 * Command line: opannotate --source pi.O0.g 
+	 * 
+	 * Interpretation of command line:
+	 * Output annotated source file with samples
+	 * Output all files
+	 * 
+	 * CPU: ARM Cortex-A9, speed 999 MHz (estimated)
+	 * Counted CPU_CYCLES events (CPU cycle) with a unit mask of 0x00 (No unit mask) count 100000
+	 */
+	/* 
+	 * Total samples for file : "/home/ubuntu/lab2_session/1.2/pi.c"
+	 * 
+	 * 239215 61.7085
+	 */
 
 
- /* memset total:    199  0.0513 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/fileops.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/fileops.c"
- * 
- *    115  0.0297
- */
+		       :#include <memory.h>
+		       :#include <stdio.h>
+		       :#include <stdlib.h>
+		       :
+		       :int N, N4;
+		       :signed char a[25480], b[25480], c[25480];
+		       :
+		       :void DIVIDE( signed char *x, int n )                           
+	     8  0.0021 :{                                                 /* DIVIDE total:  94519 24.3824 */
+		       :    int j, k;
+		       :    unsigned q, r, u;
+		       :    long v;
+		       :
+		       :    r = 0;                                       
+	 23800  6.1395 :    for( k = 0; k <= N4; k++ )                  
+		       :    {                                            
+	 21718  5.6024 :        u = r * 10 + x[k];                       
+	 20615  5.3179 :        q = u/n;                               
+	 14237  3.6726 :        r = u - q * n;                           
+	 14137  3.6468 :        x[k] = q;                                
+		       :    }                                           
+	     4  0.0010 :}
+		       :
+		       :void LONGDIV( signed char *x, int n )                          
+	     2 5.2e-04 :{                                                 /* LONGDIV total:  34861  8.9928 */
+		       :    int j, k;
+		       :    unsigned q, r, u;
+		       :    long v;
+		       :
+		       :    if( n < 6553 )                               
+		       :    {                                            
+		       :        r = 0;                                   
+	  2663  0.6870 :        for( k = 0; k <= N4; k++ )               
+		       :        {                                        
+	  2640  0.6810 :            u = r * 10 + x[k];                   
+	  2262  0.5835 :            q = u / n;                           
+	  1499  0.3867 :            r = u - q * n;                       
+	  1471  0.3795 :            x[k] = q;                            
+		       :        }                                       
+		       :    }                                            
+		       :    else                                         
+		       :    {                                            
+		       :        r = 0;                                   
+	  6151  1.5867 :        for( k = 0; k <= N4; k++ )              
+		       :        {                                       
+	  2581  0.6658 :            if( r < 6553 )                      
+		       :            {                                   
+	  4328  1.1165 :                u = r * 10 + x[k];              
+	  1846  0.4762 :                q = u / n;                      
+	  1500  0.3869 :                r = u - q * n;                  
+		       :            }                                   
+		       :            else                                
+		       :            {                                   
+	  3320  0.8564 :                v = (long) r * 10 + x[k];       
+	  1037  0.2675 :                q = v / n;                      
+	   940  0.2425 :                r = v - q * n;                  
+		       :            }                                   
+	  2619  0.6756 :            x[k] = q;                           
+		       :        }                                       
+		       :    }                                           
+	     2 5.2e-04 :}
+		       :
+		       :void MULTIPLY( signed char *x, int n )                        
+		       :{                                             /* MULTIPLY total:     10  0.0026 */
+		       :    int j, k;
+		       :    unsigned q, r, u;
+		       :    long v;
+		       :    r = 0;                                   
+		       :    for( k = N4; k >= 0; k-- )               
+		       :    {                                        
+	     1 2.6e-04 :        q = n * x[k] + r;                    
+	     2 5.2e-04 :        r = q / 10;                          
+	     7  0.0018 :        x[k] = q - r * 10;                   
+		       :    }                                        
+		       :}
+		       :
+		       :void SET( signed char *x, int n )                              
+	     5  0.0013 :{                                                 /* SET total:      7  0.0018 */
+		       :    memset( x, 0, N4 + 1 );                      
+	     1 2.6e-04 :    x[0] = n;                                    
+	     1 2.6e-04 :}
+		       :
+		       :
+		       :void SUBTRACT( signed char *x, signed char *y, signed char *z )                      
+	     3 7.7e-04 :{                                                 /* SUBTRACT total: 109775 28.3179 */
+		       :    int j, k;
+		       :    unsigned q, r, u;
+		       :    long v;
+	 24639  6.3559 :    for( k = N4; k >= 1; k-- )                   
+		       :    {                                            
+	 46029 11.8738 :        if( (x[k] = y[k] - z[k]) < 0 )           
+		       :        {                                        
+	 25189  6.4978 :            x[k] += 10;                          
+	 13903  3.5865 :            z[k-1]++;                            
+		       :        }                                        
+		       :    }                                            
+	     8  0.0021 :    if( (x[k] = y[k] - z[k]) < 0 )           
+		       :    {                                        
+		       :        x[k] += 10;                          
+		       :    }                                        
+	     4  0.0010 :}
+		       :
+		       :
+		       :void calculate( void );
+		       :void progress( void );
+		       :void epilog( void );
+		       :
+		       :
+		       :int main( int argc, char *argv[] )
+		       :{
+		       :    N = 10000;
+		       :
+		       :    if( argc > 1 )
+		       :        N = atoi(argv[1]);
+		       :
+		       :    setbuf(stdout, NULL);
+		       :
+		       :    calculate();
+		       :
+		       :    epilog();
+		       :
+		       :    return 0;
+		       :}
+		       :
+		       :void calculate( void )
+		       :{ /* calculate total:     22  0.0057 */
+		       :    int j;
+		       :
+		       :    N4 = N + 4;
+		       :
+		       :    SET( a, 0 );
+		       :    SET( b, 0 );
+		       :
+	     2 5.2e-04 :    for( j = 2 * N4 + 1; j >= 3; j -= 2 )
+		       :    {
+	     2 5.2e-04 :        SET( c, 1 );
+	     3 7.7e-04 :        LONGDIV( c, j );
+		       :
+	     2 5.2e-04 :        SUBTRACT( a, c, a );
+	     3 7.7e-04 :        DIVIDE( a, 25 );
+		       :
+	     2 5.2e-04 :        SUBTRACT( b, c, b );
+	     4  0.0010 :        DIVIDE( b, 239 );
+	     1 2.6e-04 :        DIVIDE( b, 239 );
+		       :
+	     3 7.7e-04 :        progress();
+		       :    }
+		       :
+		       :    SET( c, 1 );
+		       :
+		       :    SUBTRACT( a, c, a );
+		       :    DIVIDE( a, 5 );
+		       :
+		       :    SUBTRACT( b, c, b );
+		       :    DIVIDE( b, 239 );
+		       :
+		       :    MULTIPLY( a, 4 );
+		       :    SUBTRACT( a, a, b );
+		       :    MULTIPLY( a, 4 );
+		       :
+		       :    progress();
+		       :}
+		       :
+		       :/*
+		       :
+		       : N = 10000                      
+		       : A = 0                          
+		       : B = 0                          
+		       : J = 2 * (N + 4) + 1            
+		       : FOR J = J TO 3 STEP -2         
+		       :     A = (1 / J - A) / 5 ^ 2    
+		       :     B = (1 / J - B) / 239 ^ 2  
+		       : NEXT J                         
+		       : A = (1 - A) / 5                
+		       : B = (1 - B) / 239              
+		       : PI = (A * 4 - B) * 4           
+		       :
+		       :*/
+		       :
+		       :void progress( void )
+	     3 7.7e-04 :{ /* progress total:      5  0.0013 */
+		       :    printf(".");
+	     2 5.2e-04 :}
+		       :
+		       :void epilog( void )
+		       :{ /* epilog total:     16  0.0041 */
+		       :    int j;
+		       :
+		       :    {
+		       :        fprintf( stdout, " \n3.");
+	     4  0.0010 :        for( j = 1; j <= N; j++ )
+		       :        {
+	     5  0.0013 :            fprintf( stdout, "%d", a[j]);
+	     7  0.0018 :            if( j % 5  == 0 )
+		       :                if( j % 50 == 0 )
+		       :                    if( j % 250  == 0 )
+		       :                        fprintf( stdout, "    <%d>\n\n   ", j );
+		       :                    else
+		       :                        fprintf( stdout, "\n   " );
+		       :                else
+		       :                    fprintf( stdout, " " );
+		       :        }
+		       :    }
+		       :}
+		       :
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/string/../sysdeps/arm/memset.S
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/string/../sysdeps/arm/memset.S"
+	 * 
+	 *    199  0.0513
+	 */
 
 
- /* _IO_do_write@@GLIBC_2.4 total:     10  0.0026 */
- /* new_do_write total:     34  0.0088 */
- /* _IO_file_overflow@@GLIBC_2.4 total:     16  0.0041 */
- /* _IO_file_write@@GLIBC_2.4 total:     39  0.0101 */
- /* _IO_file_xsputn@@GLIBC_2.4 total:     16  0.0041 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/stdio-common/vfprintf.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/stdio-common/vfprintf.c"
- * 
- *     79  0.0204
- */
+	 /* memset total:    199  0.0513 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/fileops.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/fileops.c"
+	 * 
+	 *    115  0.0297
+	 */
 
 
- /* vfprintf total:     67  0.0173 */
- /* buffered_vfprintf total:     14  0.0036 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/putchar.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/putchar.c"
- * 
- *     24  0.0062
- */
+	 /* _IO_do_write@@GLIBC_2.4 total:     10  0.0026 */
+	 /* new_do_write total:     34  0.0088 */
+	 /* _IO_file_overflow@@GLIBC_2.4 total:     16  0.0041 */
+	 /* _IO_file_write@@GLIBC_2.4 total:     39  0.0101 */
+	 /* _IO_file_xsputn@@GLIBC_2.4 total:     16  0.0041 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/stdio-common/vfprintf.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/stdio-common/vfprintf.c"
+	 * 
+	 *     79  0.0204
+	 */
 
 
- /* putchar total:     31  0.0080 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/io/../sysdeps/unix/syscall-template.S
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/io/../sysdeps/unix/syscall-template.S"
- * 
- *     23  0.0059
- */
+	 /* vfprintf total:     67  0.0173 */
+	 /* buffered_vfprintf total:     14  0.0036 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/putchar.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/putchar.c"
+	 * 
+	 *     24  0.0062
+	 */
 
 
- /* open total:      1 2.6e-04 */
- /* write total:     22  0.0057 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/genops.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/genops.c"
- * 
- *     15  0.0039
- */
+	 /* putchar total:     31  0.0080 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/io/../sysdeps/unix/syscall-template.S
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/io/../sysdeps/unix/syscall-template.S"
+	 * 
+	 *     23  0.0059
+	 */
 
 
- /* __overflow total:      6  0.0015 */
- /* _IO_default_xsputn total:      8  0.0021 */
- /* _IO_flush_all_lockp total:      1 2.6e-04 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/string/strchrnul.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/string/strchrnul.c"
- * 
- *     11  0.0028
- */
+	 /* open total:      1 2.6e-04 */
+	 /* write total:     22  0.0057 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/genops.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/genops.c"
+	 * 
+	 *     15  0.0039
+	 */
 
 
- /* strchrnul total:     11  0.0028 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/libioP.h
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/libioP.h"
- * 
- *      9  0.0023
- */
+	 /* __overflow total:      6  0.0015 */
+	 /* _IO_default_xsputn total:      8  0.0021 */
+	 /* _IO_flush_all_lockp total:      1 2.6e-04 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/string/strchrnul.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/string/strchrnul.c"
+	 * 
+	 *     11  0.0028
+	 */
 
 
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/stdio-common/_itoa.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/stdio-common/_itoa.c"
- * 
- *      6  0.0015
- */
+	 /* strchrnul total:     11  0.0028 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/libioP.h
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/libioP.h"
+	 * 
+	 *      9  0.0023
+	 */
 
 
- /* _itoa_word total:      6  0.0015 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/fputc.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/fputc.c"
- * 
- *      3 7.7e-04
- */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/stdio-common/_itoa.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/stdio-common/_itoa.c"
+	 * 
+	 *      6  0.0015
+	 */
 
 
- /* fputc total:      4  0.0010 */
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/stdio-common/printf-parse.h
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/stdio-common/printf-parse.h"
- * 
- *      2 5.2e-04
- */
+	 /* _itoa_word total:      6  0.0015 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/libio/fputc.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/libio/fputc.c"
+	 * 
+	 *      3 7.7e-04
+	 */
 
 
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/elf/do-rel.h
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/elf/do-rel.h"
- * 
- *      1 2.6e-04
- */
+	 /* fputc total:      4  0.0010 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/stdio-common/printf-parse.h
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/stdio-common/printf-parse.h"
+	 * 
+	 *      2 5.2e-04
+	 */
 
 
-opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/elf/dl-lookup.c
-/* 
- * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/elf/dl-lookup.c"
- * 
- *      1 2.6e-04
- */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/elf/do-rel.h
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/elf/do-rel.h"
+	 * 
+	 *      1 2.6e-04
+	 */
 
 
- /* check_match total:      1 2.6e-04 */
+	opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23/elf/dl-lookup.c
+	/* 
+	 * Total samples for file : "/build/glibc-XzEjT5/glibc-2.23/elf/dl-lookup.c"
+	 * 
+	 *      1 2.6e-04
+	 */
+
+
+	 /* check_match total:      1 2.6e-04 */
  
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 	$ gcc -g -O3 pi.c -o pi.O3.g
 	$ operf --event=CPU_CYCLES:100000 ./pi.O3.g
 	$ opreport -l
+	
 	CPU: ARM Cortex-A9, speed 999 MHz (estimated)
 	Counted CPU_CYCLES events (CPU cycle) with a unit mask of 0x00 (No unit mask) count 100000
 	samples  %        image name               symbol name
@@ -555,6 +563,8 @@ opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23
 	1        7.7e-04  libc-2.23.so             fwrite
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	$ opannotate --source pi.O3.g
+	
 	Using /home/ubuntu/lab2_session/1.2/oprofile_data/samples/ for session-dir
 	/* 
 	 * Command line: opannotate --source pi.O3.g 
@@ -1083,176 +1093,124 @@ opannotate (warning): unable to open for reading: /build/glibc-XzEjT5/glibc-2.23
 
 	a)
 
-$ sudo perf record -e cycles -F 32200 ./pi.O0.g 1000
-$ sudo perf report --stdio -n
+	$ sudo perf record -e cycles -F 32200 ./pi.O0.g 1000
+	$ sudo perf report --stdio -n
 
 
-# To display the perf.data header info, please use --header/--hea
-#
-#
-# Total Lost Samples: 0
-#
-# Samples: 25K of event 'cycles'
-# Event count (approx.): 514641219
-#
-# Overhead       Samples  Command  Shared Object      Symbol     
-# ........  ............  .......  .................  ...........
-#
-    33.81%          8499  pi.O0.g  pi.O0.g            [.] __udivs
-    25.59%          6429  pi.O0.g  pi.O0.g            [.] SUBTRAC
-    22.01%          5532  pi.O0.g  pi.O0.g            [.] DIVIDE
-     8.11%          2041  pi.O0.g  pi.O0.g            [.] LONGDIV
-     2.29%           580  pi.O0.g  [kernel.kallsyms]  [k] queue_w
-     0.96%           242  pi.O0.g  [kernel.kallsyms]  [k] __do_so
-     0.74%           186  pi.O0.g  [kernel.kallsyms]  [k] v7_dma_
-     0.33%            84  pi.O0.g  [kernel.kallsyms]  [k] l2c210_
-     0.28%            71  pi.O0.g  [kernel.kallsyms]  [k] tcp_ack
-     0.25%            64  pi.O0.g  [kernel.kallsyms]  [k] _raw_sp
-     0.25%            63  pi.O0.g  libc-2.23.so       [.] vfprint
-     0.25%            62  pi.O0.g  [kernel.kallsyms]  [k] n_tty_w
-     0.19%            48  pi.O0.g  [kernel.kallsyms]  [k] tty_wri
-     0.15%            38  pi.O0.g  [kernel.kallsyms]  [k] ip_rcv
-     0.13%            32  pi.O0.g  [kernel.kallsyms]  [k] tcp_v4_
-     0.12%            30  pi.O0.g  [kernel.kallsyms]  [k] __netde
-     0.11%            29  pi.O0.g  [kernel.kallsyms]  [k] vector_
-     0.11%            28  pi.O0.g  [kernel.kallsyms]  [k] __netif
-     0.09%            23  pi.O0.g  [kernel.kallsyms]  [k] dma_cac
-     0.09%            22  pi.O0.g  [kernel.kallsyms]  [k] gem_rx_
-     0.09%            22  pi.O0.g  [kernel.kallsyms]  [k] vfs_wri
-     0.08%            20  pi.O0.g  libc-2.23.so       [.] __GI___
-     0.08%            20  pi.O0.g  libc-2.23.so       [.] new_do_
-     0.08%            19  pi.O0.g  [kernel.kallsyms]  [k] skb_rel
-     0.07%            19  pi.O0.g  [kernel.kallsyms]  [k] tty_par
-     0.07%            17  pi.O0.g  libc-2.23.so       [.] putchar
-     0.07%            17  pi.O0.g  pi.O0.g            [.] calcula
-     0.07%            17  pi.O0.g  [kernel.kallsyms]  [k] __l2c21
-     0.07%            17  pi.O0.g  [kernel.kallsyms]  [k] macb_po
-     0.07%            17  pi.O0.g  [kernel.kallsyms]  [k] __do_di
-     0.07%            17  pi.O0.g  libc-2.23.so       [.] buffere
-     0.06%            16  pi.O0.g  [kernel.kallsyms]  [k] eth_typ
-     0.06%            16  pi.O0.g  [kernel.kallsyms]  [k] tty_ins
-     0.06%            16  pi.O0.g  [kernel.kallsyms]  [k] __fdget
-     0.06%            16  pi.O0.g  libc-2.23.so       [.] _IO_fil
-     0.06%            15  pi.O0.g  [kernel.kallsyms]  [k] tcp_rcv
-     0.06%            15  pi.O0.g  libc-2.23.so       [.] _IO_fil
-     0.06%            15  pi.O0.g  [kernel.kallsyms]  [k] mmioset
-     0.06%            14  pi.O0.g  [kernel.kallsyms]  [k] skb_put
-     0.06%            14  pi.O0.g  [kernel.kallsyms]  [k] kfree
-:
+	# To display the perf.data header info, please use --header/--hea
+	#
+	#
+	# Total Lost Samples: 0
+	#
+	# Samples: 25K of event 'cycles'
+	# Event count (approx.): 514641219
+	#
+	# Overhead       Samples  Command  Shared Object      Symbol     
+	# ........  ............  .......  .................  ...........
+	#
+	    33.81%          8499  pi.O0.g  pi.O0.g            [.] __udivs
+	    25.59%          6429  pi.O0.g  pi.O0.g            [.] SUBTRAC
+	    22.01%          5532  pi.O0.g  pi.O0.g            [.] DIVIDE
+	     8.11%          2041  pi.O0.g  pi.O0.g            [.] LONGDIV
+	     2.29%           580  pi.O0.g  [kernel.kallsyms]  [k] queue_w
+	     0.96%           242  pi.O0.g  [kernel.kallsyms]  [k] __do_so
+	     0.74%           186  pi.O0.g  [kernel.kallsyms]  [k] v7_dma_
+	     0.33%            84  pi.O0.g  [kernel.kallsyms]  [k] l2c210_
+	     0.28%            71  pi.O0.g  [kernel.kallsyms]  [k] tcp_ack
+	     0.25%            64  pi.O0.g  [kernel.kallsyms]  [k] _raw_sp
+	     0.25%            63  pi.O0.g  libc-2.23.so       [.] vfprint
+	     0.25%            62  pi.O0.g  [kernel.kallsyms]  [k] n_tty_w
+	     0.19%            48  pi.O0.g  [kernel.kallsyms]  [k] tty_wri
+	     0.15%            38  pi.O0.g  [kernel.kallsyms]  [k] ip_rcv
+	     0.13%            32  pi.O0.g  [kernel.kallsyms]  [k] tcp_v4_
+	     0.12%            30  pi.O0.g  [kernel.kallsyms]  [k] __netde
+	     0.11%            29  pi.O0.g  [kernel.kallsyms]  [k] vector_
+	     0.11%            28  pi.O0.g  [kernel.kallsyms]  [k] __netif
+	     0.09%            23  pi.O0.g  [kernel.kallsyms]  [k] dma_cac
+	     0.09%            22  pi.O0.g  [kernel.kallsyms]  [k] gem_rx_
+	     0.09%            22  pi.O0.g  [kernel.kallsyms]  [k] vfs_wri
+	     0.08%            20  pi.O0.g  libc-2.23.so       [.] __GI___
+	     0.08%            20  pi.O0.g  libc-2.23.so       [.] new_do_
+	     0.08%            19  pi.O0.g  [kernel.kallsyms]  [k] skb_rel
+	     0.07%            19  pi.O0.g  [kernel.kallsyms]  [k] tty_par
+	     0.07%            17  pi.O0.g  libc-2.23.so       [.] putchar
+	     0.07%            17  pi.O0.g  pi.O0.g            [.] calcula
+	     0.07%            17  pi.O0.g  [kernel.kallsyms]  [k] __l2c21
+	     0.07%            17  pi.O0.g  [kernel.kallsyms]  [k] macb_po
+	     0.07%            17  pi.O0.g  [kernel.kallsyms]  [k] __do_di
+	     0.07%            17  pi.O0.g  libc-2.23.so       [.] buffere
+	     0.06%            16  pi.O0.g  [kernel.kallsyms]  [k] eth_typ
+	     0.06%            16  pi.O0.g  [kernel.kallsyms]  [k] tty_ins
+	     0.06%            16  pi.O0.g  [kernel.kallsyms]  [k] __fdget
+	     0.06%            16  pi.O0.g  libc-2.23.so       [.] _IO_fil
+	     0.06%            15  pi.O0.g  [kernel.kallsyms]  [k] tcp_rcv
+	     0.06%            15  pi.O0.g  libc-2.23.so       [.] _IO_fil
+	     0.06%            15  pi.O0.g  [kernel.kallsyms]  [k] mmioset
+	     0.06%            14  pi.O0.g  [kernel.kallsyms]  [k] skb_put
+	     0.06%            14  pi.O0.g  [kernel.kallsyms]  [k] kfree
+	:	
 
 
-$ sudo perf record -e cycles -F 1000 ./pi.O0.g 1000
-$ sudo perf report --stdio -n
+	#
+	# (Cannot load tips.txt file, please install perf!)
+	#
 
 
-# To display the perf.data header info, please use --header/--header-only options.
-#
-#
-# Total Lost Samples: 0
-#
-# Samples: 593  of event 'cycles'
-# Event count (approx.): 414063262
-#
-# Overhead       Samples  Command  Shared Object      Symbol                               
-# ........  ............  .......  .................  .....................................
-#
-    31.94%           184  pi.O0.g  pi.O0.g            [.] __udivsi3
-    29.00%           173  pi.O0.g  pi.O0.g            [.] SUBTRACT
-    22.02%           132  pi.O0.g  pi.O0.g            [.] DIVIDE
-     6.55%            40  pi.O0.g  pi.O0.g            [.] LONGDIV
-     3.00%            19  pi.O0.g  [kernel.kallsyms]  [k] queue_work_on
-     0.97%             6  pi.O0.g  [kernel.kallsyms]  [k] v7_dma_inv_range
-     0.90%             1  pi.O0.g  [kernel.kallsyms]  [k] ip_rcv
-     0.73%             1  pi.O0.g  [kernel.kallsyms]  [k] _raw_spin_unlock_irqrestore
-     0.48%             3  pi.O0.g  [kernel.kallsyms]  [k] __do_softirq
-     0.48%             3  pi.O0.g  [kernel.kallsyms]  [k] tcp_ack
-     0.32%             2  pi.O0.g  [kernel.kallsyms]  [k] tcp_rcv_established
-     0.20%             1  pi.O0.g  [kernel.kallsyms]  [k] netif_receive_skb_internal
-     0.18%             1  pi.O0.g  [kernel.kallsyms]  [k] vfs_write
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] ip_local_deliver
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] skb_release_head_state
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] v7_dma_map_area
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] down_read
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] netif_receive_skb
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] __fget_light
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] v7_dma_unmap_area
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] __do_div64
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] n_tty_write
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] skb_release_data
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] l2c210_inv_range
-     0.16%             1  pi.O0.g  libc-2.23.so       [.] putchar
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] tty_insert_flip_string_fixed_flag
-     0.16%             1  pi.O0.g  libc-2.23.so       [.] memset
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] tcp_store_ts_recent
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] gem_rx_refill
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] __netif_receive_skb_core
-     0.16%             1  pi.O0.g  [kernel.kallsyms]  [k] tty_write
-     0.16%             1  pi.O0.g  libc-2.23.so       [.] _IO_file_write@@GLIBC_2.4
-     0.15%             1  pi.O0.g  libc-2.23.so       [.] __GI___libc_write
-     0.03%             1  pi.O0.g  [kernel.kallsyms]  [k] get_page_from_freelist
-     0.00%             6  perf     [kernel.kallsyms]  [k] perf_event_exec
+	$ sudo perf record -e cycles -F 5000 ./pi.O0.g 1000
+	$ sudo perf report --stdio -n
 
 
-#
-# (Cannot load tips.txt file, please install perf!)
-#
-
-
-$ sudo perf record -e cycles -F 5000 ./pi.O0.g 1000
-$ sudo perf report --stdio -n
-
-
-# To display the perf.data header info, please use --header/--header-only options.
-#
-#
-# Total Lost Samples: 0
-#
-# Samples: 3K of event 'cycles'
-# Event count (approx.): 434938242
-#
-# Overhead       Samples  Command  Shared Object      Symbol                               
-# ........  ............  .......  .................  .....................................
-#
-    34.17%          1117  pi.O0.g  pi.O0.g            [.] __udivsi3
-    26.11%           854  pi.O0.g  pi.O0.g            [.] SUBTRACT
-    21.44%           701  pi.O0.g  pi.O0.g            [.] DIVIDE
-     7.09%           232  pi.O0.g  pi.O0.g            [.] LONGDIV
-     1.70%            65  pi.O0.g  [kernel.kallsyms]  [k] queue_work_on
-     1.48%            52  pi.O0.g  [kernel.kallsyms]  [k] __do_softirq
-     0.88%            31  pi.O0.g  [kernel.kallsyms]  [k] v7_dma_inv_range
-     0.43%            16  pi.O0.g  [kernel.kallsyms]  [k] n_tty_write
-     0.31%            11  pi.O0.g  [kernel.kallsyms]  [k] tcp_ack
-     0.30%            11  pi.O0.g  [kernel.kallsyms]  [k] l2c210_inv_range
-     0.22%             9  pi.O0.g  [kernel.kallsyms]  [k] _raw_spin_unlock_irqrestore
-     0.22%             8  pi.O0.g  [kernel.kallsyms]  [k] tcp_v4_rcv
-     0.22%             8  pi.O0.g  [kernel.kallsyms]  [k] ip_rcv
-     0.21%             9  pi.O0.g  libc-2.23.so       [.] vfprintf
-     0.19%             7  pi.O0.g  [kernel.kallsyms]  [k] dma_cache_maint_page
-     0.15%             5  pi.O0.g  libc-2.23.so       [.] memset
-     0.14%             5  pi.O0.g  [kernel.kallsyms]  [k] ip_local_deliver
-     0.14%             5  pi.O0.g  [kernel.kallsyms]  [k] gem_rx_refill
-     0.14%             5  pi.O0.g  [kernel.kallsyms]  [k] tty_write
-     0.12%             4  pi.O0.g  [kernel.kallsyms]  [k] __kfree_skb
-     0.12%             4  pi.O0.g  [kernel.kallsyms]  [k] __netdev_alloc_skb
-     0.11%             3  pi.O0.g  [kernel.kallsyms]  [k] filemap_map_pages
-     0.11%             4  pi.O0.g  [kernel.kallsyms]  [k] gem_rx
-     0.11%             4  pi.O0.g  [kernel.kallsyms]  [k] __l2c210_cache_sync
-     0.09%             3  pi.O0.g  [kernel.kallsyms]  [k] vfs_write
-     0.09%             3  pi.O0.g  libc-2.23.so       [.] putchar
-     0.09%             3  pi.O0.g  [kernel.kallsyms]  [k] __rcu_read_unlock
-     0.09%             3  pi.O0.g  [kernel.kallsyms]  [k] vector_swi
-     0.09%             3  pi.O0.g  [kernel.kallsyms]  [k] tcp_v4_early_demux
-     0.09%             3  pi.O0.g  [kernel.kallsyms]  [k] __dma_page_dev_to_cpu
-     0.09%             3  pi.O0.g  libc-2.23.so       [.] new_do_write
-     0.09%             3  pi.O0.g  [kernel.kallsyms]  [k] mod_timer
-     0.08%             3  pi.O0.g  [kernel.kallsyms]  [k] __netif_receive_skb_core
-     0.08%             3  pi.O0.g  [kernel.kallsyms]  [k] tcp_xmit_recovery
-     0.08%             3  pi.O0.g  [kernel.kallsyms]  [k] __fdget_pos
-     0.08%             3  pi.O0.g  [kernel.kallsyms]  [k] __memzero
-     0.08%             3  pi.O0.g  [kernel.kallsyms]  [k] netif_receive_skb_internal
-     0.08%             3  pi.O0.g  [kernel.kallsyms]  [k] __vfs_write
-     0.07%             3  pi.O0.g  [kernel.kallsyms]  [k] __tty_buffer_request_room
-     0.06%             2  pi.O0.g  pi.O0.g            [.] progress
+	# To display the perf.data header info, please use --header/--header-only options.
+	#
+	#
+	# Total Lost Samples: 0
+	#
+	# Samples: 3K of event 'cycles'
+	# Event count (approx.): 434938242
+	#
+	# Overhead       Samples  Command  Shared Object      Symbol                               
+	# ........  ............  .......  .................  .....................................
+	#
+	    34.17%          1117  pi.O0.g  pi.O0.g            [.] __udivsi3
+	    26.11%           854  pi.O0.g  pi.O0.g            [.] SUBTRACT
+	    21.44%           701  pi.O0.g  pi.O0.g            [.] DIVIDE
+	     7.09%           232  pi.O0.g  pi.O0.g            [.] LONGDIV
+	     1.70%            65  pi.O0.g  [kernel.kallsyms]  [k] queue_work_on
+	     1.48%            52  pi.O0.g  [kernel.kallsyms]  [k] __do_softirq
+	     0.88%            31  pi.O0.g  [kernel.kallsyms]  [k] v7_dma_inv_range
+	     0.43%            16  pi.O0.g  [kernel.kallsyms]  [k] n_tty_write
+	     0.31%            11  pi.O0.g  [kernel.kallsyms]  [k] tcp_ack
+	     0.30%            11  pi.O0.g  [kernel.kallsyms]  [k] l2c210_inv_range
+	     0.22%             9  pi.O0.g  [kernel.kallsyms]  [k] _raw_spin_unlock_irqrestore
+	     0.22%             8  pi.O0.g  [kernel.kallsyms]  [k] tcp_v4_rcv
+	     0.22%             8  pi.O0.g  [kernel.kallsyms]  [k] ip_rcv
+	     0.21%             9  pi.O0.g  libc-2.23.so       [.] vfprintf
+	     0.19%             7  pi.O0.g  [kernel.kallsyms]  [k] dma_cache_maint_page
+	     0.15%             5  pi.O0.g  libc-2.23.so       [.] memset
+	     0.14%             5  pi.O0.g  [kernel.kallsyms]  [k] ip_local_deliver
+	     0.14%             5  pi.O0.g  [kernel.kallsyms]  [k] gem_rx_refill
+	     0.14%             5  pi.O0.g  [kernel.kallsyms]  [k] tty_write
+	     0.12%             4  pi.O0.g  [kernel.kallsyms]  [k] __kfree_skb
+	     0.12%             4  pi.O0.g  [kernel.kallsyms]  [k] __netdev_alloc_skb
+	     0.11%             3  pi.O0.g  [kernel.kallsyms]  [k] filemap_map_pages
+	     0.11%             4  pi.O0.g  [kernel.kallsyms]  [k] gem_rx
+	     0.11%             4  pi.O0.g  [kernel.kallsyms]  [k] __l2c210_cache_sync
+	     0.09%             3  pi.O0.g  [kernel.kallsyms]  [k] vfs_write
+	     0.09%             3  pi.O0.g  libc-2.23.so       [.] putchar
+	     0.09%             3  pi.O0.g  [kernel.kallsyms]  [k] __rcu_read_unlock
+	     0.09%             3  pi.O0.g  [kernel.kallsyms]  [k] vector_swi
+	     0.09%             3  pi.O0.g  [kernel.kallsyms]  [k] tcp_v4_early_demux
+	     0.09%             3  pi.O0.g  [kernel.kallsyms]  [k] __dma_page_dev_to_cpu
+	     0.09%             3  pi.O0.g  libc-2.23.so       [.] new_do_write
+	     0.09%             3  pi.O0.g  [kernel.kallsyms]  [k] mod_timer
+	     0.08%             3  pi.O0.g  [kernel.kallsyms]  [k] __netif_receive_skb_core
+	     0.08%             3  pi.O0.g  [kernel.kallsyms]  [k] tcp_xmit_recovery
+	     0.08%             3  pi.O0.g  [kernel.kallsyms]  [k] __fdget_pos
+	     0.08%             3  pi.O0.g  [kernel.kallsyms]  [k] __memzero
+	     0.08%             3  pi.O0.g  [kernel.kallsyms]  [k] netif_receive_skb_internal
+	     0.08%             3  pi.O0.g  [kernel.kallsyms]  [k] __vfs_write
+	     0.07%             3  pi.O0.g  [kernel.kallsyms]  [k] __tty_buffer_request_room
+	     0.06%             2  pi.O0.g  pi.O0.g            [.] progress
 
 9)
 
