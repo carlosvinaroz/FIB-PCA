@@ -1092,7 +1092,8 @@
 8) 
 
 	a)
-
+	Observamos que, dependiendo de la frecuencia que le pongamos, se ejecutan más samples, aun así el cuello de botella que 
+	genera cada rutina más o menos es el mismo. PD: El máximo que nos dejaba poner como frecuencia eran 32200.
 	$ sudo perf record -e cycles -F 32200 ./pi.O0.g 1000
 	$ sudo perf report --stdio -n
 
@@ -1154,7 +1155,7 @@
 	#
 	# (Cannot load tips.txt file, please install perf!)
 	#
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	$ sudo perf record -e cycles -F 5000 ./pi.O0.g 1000
 	$ sudo perf report --stdio -n
@@ -1215,62 +1216,66 @@
 9)
 
 	a)
+	Vemos como para la misma frecuencia se ejecutan muchos menos samples, por lo que comentamos en ejercicios anteriores. 
+	Nos ahorramos las llamadas a  las funciones que han le han hecho inline. Por lo que nos ahorramos ese recuento de 
+	samples. Tambien por las optimizaciones de los bucles. EL cuello de botella, sin embargo, es mayor en calculate que 
+	antes, por el mismo motivo (inline) al ejecutar el código de las funciones, que se les ha hecho inline, dentro de la 
+	rutina calculate, aumenta el código a ejecutar y por lo tanto genera más cuello de botella.
+	$ sudo perf record -e cycles -F 32200 ./pi.O3.g 1000
+	$ sudo perf report --stdio -n
 
-$ sudo perf record -e cycles -F 32200 ./pi.O3.g 1000
-$ sudo perf report --stdio -n
 
-
-# To display the perf.data header info, please use --header/--header-only options.
-#
-#
-# Total Lost Samples: 0
-#
-# Samples: 8K of event 'cycles'
-# Event count (approx.): 166145838
-#
-# Overhead       Samples  Command  Shared Object      Symbol                                    
-# ........  ............  .......  .................  ..........................................
-#
-    61.88%          5061  pi.O3.g  pi.O3.g            [.] calculate
-    23.55%          1925  pi.O3.g  pi.O3.g            [.] __udivsi3
-     5.40%           461  pi.O3.g  [kernel.kallsyms]  [k] queue_work_on
-     0.72%            62  pi.O3.g  [kernel.kallsyms]  [k] n_tty_write
-     0.61%            53  pi.O3.g  [kernel.kallsyms]  [k] _raw_spin_unlock_irqrestore
-     0.45%            42  pi.O3.g  libc-2.23.so       [.] vfprintf
-     0.38%            33  pi.O3.g  [kernel.kallsyms]  [k] tty_write
-     0.33%            27  pi.O3.g  libc-2.23.so       [.] memset
-     0.29%            24  pi.O3.g  libc-2.23.so       [.] __GI___libc_write
-     0.28%            25  pi.O3.g  libc-2.23.so       [.] new_do_write
-     0.22%            18  pi.O3.g  libc-2.23.so       [.] putchar
-     0.21%            18  pi.O3.g  [kernel.kallsyms]  [k] vfs_write
-     0.21%            18  pi.O3.g  [kernel.kallsyms]  [k] vector_swi
-     0.19%            18  pi.O3.g  [kernel.kallsyms]  [k] v7_dma_inv_range
-     0.18%            17  pi.O3.g  libc-2.23.so       [.] _IO_file_overflow@@GLIBC_2.4
-     0.18%            15  pi.O3.g  [kernel.kallsyms]  [k] mutex_lock
-     0.18%            15  pi.O3.g  libc-2.23.so       [.] _IO_file_write@@GLIBC_2.4
-     0.16%            15  pi.O3.g  [kernel.kallsyms]  [k] __do_softirq
-     0.14%            14  pi.O3.g  [kernel.kallsyms]  [k] tcp_ack
-     0.13%            11  pi.O3.g  [kernel.kallsyms]  [k] process_echoes
-     0.11%             9  pi.O3.g  [kernel.kallsyms]  [k] sys_write
-     0.10%             9  pi.O3.g  [kernel.kallsyms]  [k] __tty_buffer_request_room
-     0.10%            10  pi.O3.g  [kernel.kallsyms]  [k] fsnotify
-     0.10%            11  pi.O3.g  libc-2.23.so       [.] buffered_vfprintf
-     0.07%             7  pi.O3.g  [kernel.kallsyms]  [k] tty_insert_flip_string_fixed_flag
-     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] v7_flush_icache_all
-     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] rw_verify_area
-     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] __fget_light
-     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] mmiocpy
-     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] add_wait_queue
-     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] tty_paranoia_check
-     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] tty_write_lock
-     0.07%             7  pi.O3.g  [kernel.kallsyms]  [k] get_seconds
-     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] tty_ldisc_ref_wait
-     0.06%            26  pi.O3.g  [kernel.kallsyms]  [k] _raw_spin_unlock_irq
-     0.06%             5  pi.O3.g  [kernel.kallsyms]  [k] pty_write
-     0.06%             5  pi.O3.g  [kernel.kallsyms]  [k] mutex_trylock
-     0.06%             5  pi.O3.g  [kernel.kallsyms]  [k] mmioset
-     0.06%             5  pi.O3.g  [kernel.kallsyms]  [k] ldsem_up_read
-     0.06%             5  pi.O3.g  [kernel.kallsyms]  [k] filemap_map_pages
+	# To display the perf.data header info, please use --header/--header-only options.
+	#
+	#
+	# Total Lost Samples: 0
+	#
+	# Samples: 8K of event 'cycles'
+	# Event count (approx.): 166145838
+	#
+	# Overhead       Samples  Command  Shared Object      Symbol                                    
+	# ........  ............  .......  .................  ..........................................
+	#
+	    61.88%          5061  pi.O3.g  pi.O3.g            [.] calculate
+	    23.55%          1925  pi.O3.g  pi.O3.g            [.] __udivsi3
+	     5.40%           461  pi.O3.g  [kernel.kallsyms]  [k] queue_work_on
+	     0.72%            62  pi.O3.g  [kernel.kallsyms]  [k] n_tty_write
+	     0.61%            53  pi.O3.g  [kernel.kallsyms]  [k] _raw_spin_unlock_irqrestore
+	     0.45%            42  pi.O3.g  libc-2.23.so       [.] vfprintf
+	     0.38%            33  pi.O3.g  [kernel.kallsyms]  [k] tty_write
+	     0.33%            27  pi.O3.g  libc-2.23.so       [.] memset
+	     0.29%            24  pi.O3.g  libc-2.23.so       [.] __GI___libc_write
+	     0.28%            25  pi.O3.g  libc-2.23.so       [.] new_do_write
+	     0.22%            18  pi.O3.g  libc-2.23.so       [.] putchar
+	     0.21%            18  pi.O3.g  [kernel.kallsyms]  [k] vfs_write
+	     0.21%            18  pi.O3.g  [kernel.kallsyms]  [k] vector_swi
+	     0.19%            18  pi.O3.g  [kernel.kallsyms]  [k] v7_dma_inv_range
+	     0.18%            17  pi.O3.g  libc-2.23.so       [.] _IO_file_overflow@@GLIBC_2.4
+	     0.18%            15  pi.O3.g  [kernel.kallsyms]  [k] mutex_lock
+	     0.18%            15  pi.O3.g  libc-2.23.so       [.] _IO_file_write@@GLIBC_2.4
+	     0.16%            15  pi.O3.g  [kernel.kallsyms]  [k] __do_softirq
+	     0.14%            14  pi.O3.g  [kernel.kallsyms]  [k] tcp_ack
+	     0.13%            11  pi.O3.g  [kernel.kallsyms]  [k] process_echoes
+	     0.11%             9  pi.O3.g  [kernel.kallsyms]  [k] sys_write
+	     0.10%             9  pi.O3.g  [kernel.kallsyms]  [k] __tty_buffer_request_room
+	     0.10%            10  pi.O3.g  [kernel.kallsyms]  [k] fsnotify
+	     0.10%            11  pi.O3.g  libc-2.23.so       [.] buffered_vfprintf
+	     0.07%             7  pi.O3.g  [kernel.kallsyms]  [k] tty_insert_flip_string_fixed_flag
+	     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] v7_flush_icache_all
+	     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] rw_verify_area
+	     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] __fget_light
+	     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] mmiocpy
+	     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] add_wait_queue
+	     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] tty_paranoia_check
+	     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] tty_write_lock
+	     0.07%             7  pi.O3.g  [kernel.kallsyms]  [k] get_seconds
+	     0.07%             6  pi.O3.g  [kernel.kallsyms]  [k] tty_ldisc_ref_wait
+	     0.06%            26  pi.O3.g  [kernel.kallsyms]  [k] _raw_spin_unlock_irq
+	     0.06%             5  pi.O3.g  [kernel.kallsyms]  [k] pty_write
+	     0.06%             5  pi.O3.g  [kernel.kallsyms]  [k] mutex_trylock
+	     0.06%             5  pi.O3.g  [kernel.kallsyms]  [k] mmioset
+	     0.06%             5  pi.O3.g  [kernel.kallsyms]  [k] ldsem_up_read
+	     0.06%             5  pi.O3.g  [kernel.kallsyms]  [k] filemap_map_pages
 
 
 
