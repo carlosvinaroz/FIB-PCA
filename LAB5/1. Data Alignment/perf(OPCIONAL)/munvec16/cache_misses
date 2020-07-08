@@ -1,0 +1,46 @@
+# ========
+# captured on: Tue Aug 28 15:53:10 2018
+# hostname : zynq-bsc
+# os release : 4.6.0-xilinx
+# perf version : 
+# arch : armv7l
+# nrcpus online : 2
+# nrcpus avail : 2
+# cpudesc : ARMv7 Processor rev 0 (v7l)
+# total memory : 511720 kB
+# cmdline : /usr/bin/perf record --event cache-misses -F 500 ./munge_vectors16.2 
+# event : name = cache-misses, , size = 112, config = 0x3, { sample_period, sample_freq } = 500, sample_type = IP|TID|TIME|PERIOD, disabled = 1, inherit = 1, mmap = 1, comm = 1, freq = 1, enable_on_exec = 1, task = 1, sample_id_all = 1, exclude_guest = 1, mmap2 = 1, comm_exec = 1
+# HEADER_CPU_TOPOLOGY info available, use -I to display
+# pmu mappings: software = 1, armv7_cortex_a9 = 6, breakpoint = 5
+# HEADER_CACHE info available, use -I to display
+# ========
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 20  of event 'cache-misses'
+# Event count (approx.): 24817
+#
+# Overhead       Samples  Command          Shared Object      Symbol                  
+# ........  ............  ...............  .................  ........................
+#
+    76.47%             1  munge_vectors16  [kernel.kallsyms]  [k] put_dec_trunc8
+    15.26%             3  munge_vectors16  libc-2.23.so       [.] malloc
+     1.68%             1  munge_vectors16  [kernel.kallsyms]  [k] _raw_spin_unlock_irq
+     0.91%             1  munge_vectors16  libc-2.23.so       [.] __strdup
+     0.76%             1  munge_vectors16  [kernel.kallsyms]  [k] fsnotify
+     0.61%             1  munge_vectors16  libc-2.23.so       [.] vfprintf
+     0.61%             1  munge_vectors16  libc-2.23.so       [.] __GI___memcpy_neon
+     0.61%             1  munge_vectors16  libc-2.23.so       [.] _int_realloc
+     0.58%             1  munge_vectors16  [kernel.kallsyms]  [k] __do_softirq
+     0.58%             1  munge_vectors16  [kernel.kallsyms]  [k] generic_exec_single
+     0.58%             1  munge_vectors16  libc-2.23.so       [.] strlen
+     0.43%             1  munge_vectors16  ld-2.23.so         [.] _dl_fini
+     0.43%             1  munge_vectors16  ld-2.23.so         [.] strcmp
+     0.43%             1  munge_vectors16  libc-2.23.so       [.] _IO_flush_all_lockp
+     0.06%             4  perf             [kernel.kallsyms]  [k] perf_event_exec
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

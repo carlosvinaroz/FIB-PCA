@@ -1,0 +1,22 @@
+CPU: ARM Cortex-A9, speed 999 MHz (estimated)
+Counted BR_MIS_PRED events (Mispredicted or not predicted branch speculatively executed) with a unit mask of 0x00 (No unit mask) count 10000
+samples  %        image name               symbol name
+334      44.1215  pi2Conditional.pg        __aeabi_uidiv
+293      38.7054  pi2Conditional.pg        LONGDIV
+98       12.9458  no-vmlinux               /no-vmlinux
+6         0.7926  libc-2.23.so             vfprintf
+3         0.3963  libc-2.23.so             putchar
+3         0.3963  libc-2.23.so             strchrnul
+2         0.2642  libc-2.23.so             _IO_file_overflow@@GLIBC_2.4
+2         0.2642  libc-2.23.so             _IO_file_xsputn@@GLIBC_2.4
+2         0.2642  libc-2.23.so             __fprintf_chk
+2         0.2642  libc-2.23.so             __mcount_internal
+2         0.2642  libc-2.23.so             new_do_write
+2         0.2642  libc-2.23.so             write
+2         0.2642  pi2Conditional.pg        calculate
+1         0.1321  ld-2.23.so               access
+1         0.1321  libc-2.23.so             _IO_file_write@@GLIBC_2.4
+1         0.1321  libc-2.23.so             __gnu_mcount_nc
+1         0.1321  libc-2.23.so             __overflow
+1         0.1321  libc-2.23.so             fputc
+1         0.1321  libc-2.23.so             memset

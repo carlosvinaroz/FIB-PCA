@@ -1,0 +1,10 @@
+
+ Timing: elpased 1.620000 user 1.560000 segons, system: 0.060000 segons
+
+ Timing: elpased 1.620000 user 1.550000 segons, system: 0.070000 segons
+
+ Timing: elpased 1.620000 user 1.550000 segons, system: 0.070000 segons
+
+ Timing: elpased 1.620000 user 1.550000 segons, system: 0.070000 segons
+
+ Timing: elpased 1.620000 user 1.560000 segons, system: 0.060000 segons

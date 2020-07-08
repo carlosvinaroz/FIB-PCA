@@ -1,0 +1,95 @@
+# ========
+# captured on: Tue Aug 28 15:55:21 2018
+# hostname : zynq-bsc
+# os release : 4.6.0-xilinx
+# perf version : 
+# arch : armv7l
+# nrcpus online : 2
+# nrcpus avail : 2
+# cpudesc : ARMv7 Processor rev 0 (v7l)
+# total memory : 511720 kB
+# cmdline : /usr/bin/perf record --event cache-misses -F 500 ./munge_vectors64.2 
+# event : name = cache-misses, , size = 112, config = 0x3, { sample_period, sample_freq } = 500, sample_type = IP|TID|TIME|PERIOD, disabled = 1, inherit = 1, mmap = 1, comm = 1, freq = 1, enable_on_exec = 1, task = 1, sample_id_all = 1, exclude_guest = 1, mmap2 = 1, comm_exec = 1
+# HEADER_CPU_TOPOLOGY info available, use -I to display
+# pmu mappings: software = 1, armv7_cortex_a9 = 6, breakpoint = 5
+# HEADER_CACHE info available, use -I to display
+# ========
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 470  of event 'cache-misses'
+# Event count (approx.): 45427
+#
+# Overhead       Samples  Command          Shared Object       Symbol                         
+# ........  ............  ...............  ..................  ...............................
+#
+    40.87%             1  munge_vectors64  [kernel.kallsyms]   [k] kmem_cache_alloc
+    24.24%           240  munge_vectors64  [kernel.kallsyms]   [k] __do_softirq
+     5.94%            34  munge_vectors64  [kernel.kallsyms]   [k] _raw_spin_unlock_irq
+     3.01%             8  munge_vectors64  libc-2.23.so        [.] malloc
+     2.61%            47  munge_vectors64  [kernel.kallsyms]   [k] find_busiest_group
+     2.48%            21  munge_vectors64  [kernel.kallsyms]   [k] do_alignment
+     1.62%             3  munge_vectors64  libc-2.23.so        [.] getenv
+     1.57%             1  munge_vectors64  [kernel.kallsyms]   [k] unmap_single_vma
+     1.54%             5  munge_vectors64  libpapi.so.5.5.1.0  [.] _papi_hwi_read
+     1.29%             5  munge_vectors64  [kernel.kallsyms]   [k] __kmalloc
+     1.05%             3  munge_vectors64  libc-2.23.so        [.] __GI___printf_fp_l
+     0.91%             1  munge_vectors64  [kernel.kallsyms]   [k] do_mmap
+     0.86%             3  munge_vectors64  libpapi.so.5.5.1.0  [.] _internal_check_state
+     0.81%             2  munge_vectors64  [kernel.kallsyms]   [k] __dabt_usr
+     0.80%             2  munge_vectors64  [kernel.kallsyms]   [k] call_fpe
+     0.77%             4  munge_vectors64  libpapi.so.5.5.1.0  [.] PAPI_read_counters
+     0.77%             1  munge_vectors64  libpapi.so.5.5.1.0  [.] 0x00006470
+     0.74%             3  munge_vectors64  [kernel.kallsyms]   [k] __memzero
+     0.72%             2  munge_vectors64  libpapi.so.5.5.1.0  [.] _papi_hwi_add_error
+     0.69%             1  munge_vectors64  [kernel.kallsyms]   [k] free_pages_and_swap_cache
+     0.69%             1  munge_vectors64  [kernel.kallsyms]   [k] mark_page_accessed
+     0.67%             1  munge_vectors64  [kernel.kallsyms]   [k] __probe_kernel_read
+     0.64%             2  munge_vectors64  [kernel.kallsyms]   [k] vector_swi
+     0.62%             2  munge_vectors64  libc-2.23.so        [.] __strdup
+     0.30%             1  munge_vectors64  libc-2.23.so        [.] __mpn_extract_double
+     0.29%             5  munge_vectors64  [kernel.kallsyms]   [k] do_alignment_ldrdstrd
+     0.26%             3  munge_vectors64  [kernel.kallsyms]   [k] __schedule
+     0.25%             1  munge_vectors64  libc-2.23.so        [.] vfprintf
+     0.21%             5  munge_vectors64  [kernel.kallsyms]   [k] _find_next_bit_le
+     0.21%             5  munge_vectors64  libpapi.so.5.5.1.0  [.] _pe_read
+     0.18%             4  munge_vectors64  [kernel.kallsyms]   [k] do_DataAbort
+     0.15%             1  munge_vectors64  [kernel.kallsyms]   [k] __vfs_read
+     0.15%             1  munge_vectors64  libpapi.so.5.5.1.0  [.] 0x00006630
+     0.14%             2  munge_vectors64  [kernel.kallsyms]   [k] cpumask_next_and
+     0.14%             2  munge_vectors64  [kernel.kallsyms]   [k] generic_exec_single
+     0.12%             4  munge_vectors64  [kernel.kallsyms]   [k] idle_cpu
+     0.11%             3  munge_vectors64  libpapi.so.5.5.1.0  [.] PAPI_read
+     0.11%             3  munge_vectors64  [kernel.kallsyms]   [k] _raw_spin_unlock_irqrestore
+     0.11%             1  munge_vectors64  munge_vectors64.2   [.] Munge64
+     0.11%             3  munge_vectors64  [kernel.kallsyms]   [k] __fsnotify_parent
+     0.10%             1  munge_vectors64  [kernel.kallsyms]   [k] vfp_hw_state_valid
+     0.09%             2  munge_vectors64  libpapi.so.5.5.1.0  [.] _papi_hwi_is_sw_multiplex
+     0.09%             3  munge_vectors64  ld-2.23.so          [.] __tls_get_addr
+     0.09%             1  munge_vectors64  libc-2.23.so        [.] __GI___ioctl
+     0.08%             1  munge_vectors64  [kernel.kallsyms]   [k] arm_copy_from_user
+     0.07%             2  munge_vectors64  libpapi.so.5.5.1.0  [.] _internal_hl_read_cnts
+     0.07%             2  munge_vectors64  [kernel.kallsyms]   [k] update_group_capacity
+     0.06%             1  munge_vectors64  [kernel.kallsyms]   [k] __fdget_pos
+     0.06%             2  munge_vectors64  [kernel.kallsyms]   [k] _raw_spin_lock_irq
+     0.05%             1  munge_vectors64  [kernel.kallsyms]   [k] ret_from_exception
+     0.05%             1  munge_vectors64  libc-2.23.so        [.] __printf_chk
+     0.04%             1  munge_vectors64  [kernel.kallsyms]   [k] __fget_light
+     0.04%             1  munge_vectors64  [kernel.kallsyms]   [k] __und_usr
+     0.04%             1  munge_vectors64  [kernel.kallsyms]   [k] __aeabi_uidiv
+     0.04%             1  munge_vectors64  [kernel.kallsyms]   [k] rcu_process_callbacks
+     0.03%             1  munge_vectors64  [kernel.kallsyms]   [k] vfs_read
+     0.03%             4  perf             [kernel.kallsyms]   [k] perf_event_exec
+     0.03%             1  munge_vectors64  [kernel.kallsyms]   [k] __und_usr_thumb
+     0.03%             1  munge_vectors64  [kernel.kallsyms]   [k] perf_read
+     0.03%             1  munge_vectors64  [kernel.kallsyms]   [k] rcu_bh_qs
+     0.03%             1  munge_vectors64  [kernel.kallsyms]   [k] rebalance_domains
+     0.03%             1  munge_vectors64  libpapi.so.5.5.1.0  [.] PAPI_get_thr_specific
+     0.03%             1  munge_vectors64  libpapi.so.5.5.1.0  [.] 0x00006468
+     0.03%             1  munge_vectors64  munge_vectors64.2   [.] 0x00000688
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

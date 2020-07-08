@@ -1,0 +1,19 @@
+real 10.65
+user 10.65
+sys 0.00
+
+real 10.58
+user 10.58
+sys 0.00
+
+real 10.59
+user 10.59
+sys 0.00
+
+real 10.58
+user 10.58
+sys 0.00
+
+real 10.61
+user 10.61
+sys 0.00

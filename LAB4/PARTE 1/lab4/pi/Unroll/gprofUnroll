@@ -1,0 +1,40 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  us/call  us/call  name    
+ 40.05      0.06     0.06                             calculate
+ 26.70      0.10     0.04     2011    19.91    19.91  SUBTRACT
+ 20.02      0.13     0.03                             __aeabi_uidiv
+ 13.35      0.15     0.02     1004    19.94    19.94  LONGDIV
+  0.00      0.15     0.00        1     0.00     0.00  create_hashTable
+
+			Call graph
+
+
+granularity: each sample hit covers 2 byte(s) for 6.66% of 0.15 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     80.0    0.06    0.06                 calculate [1]
+                0.04    0.00    2011/2011        SUBTRACT [2]
+                0.02    0.00    1004/1004        LONGDIV [4]
+                0.00    0.00       1/1           create_hashTable [5]
+-----------------------------------------------
+                0.04    0.00    2011/2011        calculate [1]
+[2]     26.7    0.04    0.00    2011         SUBTRACT [2]
+-----------------------------------------------
+                                                 <spontaneous>
+[3]     20.0    0.03    0.00                 __aeabi_uidiv [3]
+-----------------------------------------------
+                0.02    0.00    1004/1004        calculate [1]
+[4]     13.3    0.02    0.00    1004         LONGDIV [4]
+-----------------------------------------------
+                0.00    0.00       1/1           calculate [1]
+[5]      0.0    0.00    0.00       1         create_hashTable [5]
+-----------------------------------------------
+
+Index by function name
+
+   [4] LONGDIV                 [3] __aeabi_uidiv           [5] create_hashTable
+   [2] SUBTRACT                [1] calculate

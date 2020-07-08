@@ -1,0 +1,49 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+ 23.36      0.04     0.04                             DIVIDE (pi2Unroll.c:93 @ 10b36)
+ 20.02      0.07     0.03                             SUBTRACT (pi2Unroll.c:170 @ 10a52)
+ 20.02      0.10     0.03                             __aeabi_uidiv
+ 13.35      0.12     0.02                             DIVIDE (pi2Unroll.c:93 @ 10b84)
+  6.67      0.13     0.01                             SUBTRACT (pi2Unroll.c:167 @ 10a38)
+  3.34      0.13     0.01                             DIVIDE (pi2Unroll.c:92 @ 10b50)
+  3.34      0.14     0.01                             LONGDIV (pi2Unroll.c:111 @ 10984)
+  3.34      0.14     0.01                             LONGDIV (pi2Unroll.c:112 @ 10988)
+  3.34      0.15     0.01                             LONGDIV (pi2Unroll.c:112 @ 1098e)
+  3.34      0.15     0.01                             LONGDIV (pi2Unroll.c:114 @ 10994)
+  0.00      0.15     0.00     2011     0.00     0.00  SUBTRACT (pi2Unroll.c:161 @ 10a1c)
+  0.00      0.15     0.00     1004     0.00     0.00  LONGDIV (pi2Unroll.c:101 @ 10908)
+  0.00      0.15     0.00        1     0.00     0.00  create_hashTable (pi2Unroll.c:46 @ 10804)
+
+			Call graph
+
+
+granularity: each sample hit covers 2 byte(s) for 6.66% of 0.15 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[3]     20.0    0.03    0.00                 __aeabi_uidiv [3]
+-----------------------------------------------
+                0.00    0.00       1/2011        SET (pi2Unroll.c:156 @ 10c02) [101]
+                0.00    0.00       1/2011        calculate (pi2Unroll.c:231 @ 10c44) [127]
+                0.00    0.00       1/2011        calculate (pi2Unroll.c:235 @ 10cc4) [128]
+                0.00    0.00    1004/2011        calculate (pi2Unroll.c:215 @ 10b0c) [120]
+                0.00    0.00    1004/2011        DIVIDE (pi2Unroll.c:92 @ 10b64) [20]
+[11]     0.0    0.00    0.00    2011         SUBTRACT (pi2Unroll.c:161 @ 10a1c) [11]
+-----------------------------------------------
+                0.00    0.00    1004/1004        calculate (pi2Unroll.c:215 @ 10b0c) [120]
+[12]     0.0    0.00    0.00    1004         LONGDIV (pi2Unroll.c:101 @ 10908) [12]
+-----------------------------------------------
+                0.00    0.00       1/1           calculate (pi2Unroll.c:210 @ 10ad4) [117]
+[13]     0.0    0.00    0.00       1         create_hashTable (pi2Unroll.c:46 @ 10804) [13]
+-----------------------------------------------
+
+Index by function name
+
+   [1] DIVIDE (pi2Unroll.c:93 @ 10b36) [8] LONGDIV (pi2Unroll.c:112 @ 10988) [2] SUBTRACT (pi2Unroll.c:170 @ 10a52)
+   [6] DIVIDE (pi2Unroll.c:92 @ 10b50) [9] LONGDIV (pi2Unroll.c:112 @ 1098e) [3] __aeabi_uidiv
+   [4] DIVIDE (pi2Unroll.c:93 @ 10b84) [10] LONGDIV (pi2Unroll.c:114 @ 10994) [13] create_hashTable (pi2Unroll.c:46 @ 10804)
+  [12] LONGDIV (pi2Unroll.c:101 @ 10908) [11] SUBTRACT (pi2Unroll.c:161 @ 10a1c)
+   [7] LONGDIV (pi2Unroll.c:111 @ 10984) [5] SUBTRACT (pi2Unroll.c:167 @ 10a38)

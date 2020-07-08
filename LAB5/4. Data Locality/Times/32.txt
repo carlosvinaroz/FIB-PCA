@@ -1,0 +1,19 @@
+real 2.21
+user 2.21
+sys 0.00
+
+real 2.21
+user 2.21
+sys 0.00
+
+real 2.02
+user 2.02
+sys 0.00
+
+real 2.02
+user 2.02
+sys 0.00
+
+real 2.02
+user 2.02
+sys 0.00

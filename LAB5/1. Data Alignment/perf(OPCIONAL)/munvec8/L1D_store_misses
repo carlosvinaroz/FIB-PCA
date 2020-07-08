@@ -1,0 +1,52 @@
+# ========
+# captured on: Tue Aug 28 15:52:22 2018
+# hostname : zynq-bsc
+# os release : 4.6.0-xilinx
+# perf version : 
+# arch : armv7l
+# nrcpus online : 2
+# nrcpus avail : 2
+# cpudesc : ARMv7 Processor rev 0 (v7l)
+# total memory : 511720 kB
+# cmdline : /usr/bin/perf record --event L1-dcache-store-misses -F 500 ./munge_vectors8.2 
+# event : name = L1-dcache-store-misses, , type = 3, size = 112, config = 0x10100, { sample_period, sample_freq } = 500, sample_type = IP|TID|TIME|PERIOD, disabled = 1, inherit = 1, mmap = 1, comm = 1, freq = 1, enable_on_exec = 1, task = 1, sample_id_all = 1, exclude_guest = 1, mmap2 = 1, comm_exec = 1
+# HEADER_CPU_TOPOLOGY info available, use -I to display
+# pmu mappings: software = 1, armv7_cortex_a9 = 6, breakpoint = 5
+# HEADER_CACHE info available, use -I to display
+# ========
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 40  of event 'L1-dcache-store-misses'
+# Event count (approx.): 25512
+#
+# Overhead       Samples  Command          Shared Object       Symbol                        
+# ........  ............  ...............  ..................  ..............................
+#
+    68.82%             1  munge_vectors8.  [kernel.kallsyms]   [k] __d_instantiate
+     6.40%             9  munge_vectors8.  libc-2.23.so        [.] malloc
+     5.36%             2  munge_vectors8.  [kernel.kallsyms]   [k] fsnotify
+     4.32%             4  munge_vectors8.  libpapi.so.5.5.1.0  [.] _papi_hwi_add_error
+     2.43%             1  munge_vectors8.  ld-2.23.so          [.] do_lookup_x
+     1.56%             3  munge_vectors8.  [kernel.kallsyms]   [k] __do_softirq
+     1.52%             1  munge_vectors8.  [kernel.kallsyms]   [k] __clear_user_std
+     1.30%             1  munge_vectors8.  [kernel.kallsyms]   [k] mark_page_accessed
+     1.30%             1  munge_vectors8.  [kernel.kallsyms]   [k] unmap_page_range
+     1.07%             2  munge_vectors8.  libpapi.so.5.5.1.0  [.] _papi_hwi_read
+     1.05%             1  munge_vectors8.  [kernel.kallsyms]   [k] perf_event_ctx_lock_nested
+     1.05%             1  munge_vectors8.  libc-2.23.so        [.] __GI___memcpy_neon
+     0.69%             1  munge_vectors8.  libc-2.23.so        [.] __strchrnul
+     0.67%             2  munge_vectors8.  [kernel.kallsyms]   [k] handle_mm_fault
+     0.57%             1  munge_vectors8.  [kernel.kallsyms]   [k] __msecs_to_jiffies
+     0.47%             1  munge_vectors8.  libc-2.23.so        [.] __GI___printf_fp_l
+     0.36%             1  munge_vectors8.  ld-2.23.so          [.] __tls_get_addr
+     0.35%             1  munge_vectors8.  libc-2.23.so        [.] _itoa_word
+     0.33%             1  munge_vectors8.  libpapi.so.5.5.1.0  [.] _papi_hwi_is_sw_multiplex
+     0.31%             1  munge_vectors8.  [kernel.kallsyms]   [k] cpu_ca9mp_set_pte_ext
+     0.06%             4  perf             [kernel.kallsyms]   [k] perf_event_exec
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

@@ -1,0 +1,54 @@
+# ========
+# captured on: Tue Aug 28 15:52:17 2018
+# hostname : zynq-bsc
+# os release : 4.6.0-xilinx
+# perf version : 
+# arch : armv7l
+# nrcpus online : 2
+# nrcpus avail : 2
+# cpudesc : ARMv7 Processor rev 0 (v7l)
+# total memory : 511720 kB
+# cmdline : /usr/bin/perf record --event cache-misses -F 500 ./munge_vectors8.2 
+# event : name = cache-misses, , size = 112, config = 0x3, { sample_period, sample_freq } = 500, sample_type = IP|TID|TIME|PERIOD, disabled = 1, inherit = 1, mmap = 1, comm = 1, freq = 1, enable_on_exec = 1, task = 1, sample_id_all = 1, exclude_guest = 1, mmap2 = 1, comm_exec = 1
+# HEADER_CPU_TOPOLOGY info available, use -I to display
+# pmu mappings: software = 1, armv7_cortex_a9 = 6, breakpoint = 5
+# HEADER_CACHE info available, use -I to display
+# ========
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 42  of event 'cache-misses'
+# Event count (approx.): 18533
+#
+# Overhead       Samples  Command          Shared Object       Symbol                        
+# ........  ............  ...............  ..................  ..............................
+#
+    56.36%             1  munge_vectors8.  libc-2.23.so        [.] _dl_addr
+    11.76%             6  munge_vectors8.  libc-2.23.so        [.] malloc
+     7.46%             6  munge_vectors8.  [kernel.kallsyms]   [k] __do_softirq
+     3.49%             3  munge_vectors8.  libc-2.23.so        [.] __GI___printf_fp_l
+     2.67%             2  munge_vectors8.  [kernel.kallsyms]   [k] mark_page_accessed
+     2.67%             1  munge_vectors8.  libc-2.23.so        [.] strlen
+     2.43%             2  munge_vectors8.  [kernel.kallsyms]   [k] __kmalloc
+     2.14%             1  munge_vectors8.  [kernel.kallsyms]   [k] _raw_spin_unlock_irq
+     1.78%             3  munge_vectors8.  munge_vectors8.2    [.] Munge8
+     1.47%             1  munge_vectors8.  [kernel.kallsyms]   [k] kfree
+     1.40%             1  munge_vectors8.  libc-2.23.so        [.] _IO_flush_all_lockp
+     1.13%             2  munge_vectors8.  libc-2.23.so        [.] getenv
+     0.84%             1  munge_vectors8.  libc-2.23.so        [.] __GI___memcpy_neon
+     0.72%             1  munge_vectors8.  [kernel.kallsyms]   [k] perf_read
+     0.65%             1  munge_vectors8.  [kernel.kallsyms]   [k] __memzero
+     0.63%             1  munge_vectors8.  libpapi.so.5.5.1.0  [.] _pe_reset
+     0.56%             1  munge_vectors8.  libc-2.23.so        [.] _int_malloc
+     0.53%             1  munge_vectors8.  [kernel.kallsyms]   [k] vector_swi
+     0.50%             1  munge_vectors8.  libc-2.23.so        [.] _IO_file_xsputn@@GLIBC_2.4
+     0.37%             1  munge_vectors8.  libc-2.23.so        [.] __mpn_extract_double
+     0.37%             1  munge_vectors8.  libpapi.so.5.5.1.0  [.] _papi_hwi_add_error
+     0.06%             1  perf             [kernel.kallsyms]   [k] perf_event_aux_ctx
+     0.02%             3  perf             [kernel.kallsyms]   [k] perf_event_exec
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

@@ -1,0 +1,38 @@
+# ========
+# captured on: Tue Aug 28 14:00:40 2018
+# hostname : zynq-bsc
+# os release : 4.6.0-xilinx
+# perf version : 
+# arch : armv7l
+# nrcpus online : 2
+# nrcpus avail : 2
+# cpudesc : ARMv7 Processor rev 0 (v7l)
+# total memory : 511720 kB
+# cmdline : /usr/bin/perf record --event cache-misses -F 500 ./transposition.3 4096 
+# event : name = cache-misses, , size = 112, config = 0x3, { sample_period, sample_freq } = 500, sample_type = IP|TID|TIME|PERIOD, disabled = 1, inherit = 1, mmap = 1, comm = 1, freq = 1, enable_on_exec = 1, task = 1, sample_id_all = 1, exclude_guest = 1, mmap2 = 1, comm_exec = 1
+# HEADER_CPU_TOPOLOGY info available, use -I to display
+# pmu mappings: software = 1, armv7_cortex_a9 = 6, breakpoint = 5
+# HEADER_CACHE info available, use -I to display
+# ========
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 110  of event 'cache-misses'
+# Event count (approx.): 3316174
+#
+# Overhead       Samples  Command          Shared Object      Symbol                
+# ........  ............  ...............  .................  ......................
+#
+    97.70%           102  transposition.3  transposition.3    [.] transpose
+     1.01%             1  transposition.3  [kernel.kallsyms]  [k] page_remove_rmap
+     0.95%             1  transposition.3  [kernel.kallsyms]  [k] __memzero
+     0.33%             1  transposition.3  transposition.3    [.] main
+     0.01%             1  transposition.3  [kernel.kallsyms]  [k] __clear_user_std
+     0.00%             1  perf             [kernel.kallsyms]  [k] perf_event_aux_ctx
+     0.00%             3  perf             [kernel.kallsyms]  [k] strrchr
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

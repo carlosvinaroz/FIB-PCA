@@ -1,0 +1,8 @@
+CPU: ARM Cortex-A9, speed 999 MHz (estimated)
+Counted BR_MIS_PRED events (Mispredicted or not predicted branch speculatively executed) with a unit mask of 0x00 (No unit mask) count 10000
+samples  %        image name               symbol name
+41       36.6071  no-vmlinux               /no-vmlinux
+35       31.2500  pi2Fusion.pg             LONGDIV
+33       29.4643  pi2Fusion.pg             __aeabi_uidiv
+2         1.7857  libc-2.23.so             vfprintf
+1         0.8929  libc-2.23.so             __overflow

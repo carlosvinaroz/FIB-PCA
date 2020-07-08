@@ -1,0 +1,58 @@
+# ========
+# captured on: Tue Aug 28 15:53:19 2018
+# hostname : zynq-bsc
+# os release : 4.6.0-xilinx
+# perf version : 
+# arch : armv7l
+# nrcpus online : 2
+# nrcpus avail : 2
+# cpudesc : ARMv7 Processor rev 0 (v7l)
+# total memory : 511720 kB
+# cmdline : /usr/bin/perf record --event dTLB-store-misses -F 500 ./munge_vectors16.2 
+# event : name = dTLB-store-misses, , type = 3, size = 112, config = 0x10103, { sample_period, sample_freq } = 500, sample_type = IP|TID|TIME|PERIOD, disabled = 1, inherit = 1, mmap = 1, comm = 1, freq = 1, enable_on_exec = 1, task = 1, sample_id_all = 1, exclude_guest = 1, mmap2 = 1, comm_exec = 1
+# HEADER_CPU_TOPOLOGY info available, use -I to display
+# pmu mappings: software = 1, armv7_cortex_a9 = 6, breakpoint = 5
+# HEADER_CACHE info available, use -I to display
+# ========
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 40  of event 'dTLB-store-misses'
+# Event count (approx.): 26448
+#
+# Overhead       Samples  Command          Shared Object       Symbol                      
+# ........  ............  ...............  ..................  ............................
+#
+    56.92%             1  munge_vectors16  ld-2.23.so          [.] _dl_lookup_symbol_x
+     6.52%             1  munge_vectors16  [kernel.kallsyms]   [k] sys_ioctl
+     5.39%             1  munge_vectors16  [kernel.kallsyms]   [k] smp_call_function_single
+     3.92%             3  munge_vectors16  libc-2.23.so        [.] getenv
+     3.67%             4  munge_vectors16  libpapi.so.5.5.1.0  [.] _papi_hwi_add_error
+     3.21%             1  munge_vectors16  [kernel.kallsyms]   [k] get_page_from_freelist
+     2.95%             4  munge_vectors16  munge_vectors16.2   [.] Munge16
+     1.83%             1  munge_vectors16  [kernel.kallsyms]   [k] do_vfs_ioctl
+     1.71%             2  munge_vectors16  libpapi.so.5.5.1.0  [.] _pe_read
+     1.49%             1  munge_vectors16  [kernel.kallsyms]   [k] insert_vm_struct
+     1.41%             1  munge_vectors16  [kernel.kallsyms]   [k] __fget_light
+     1.36%             1  munge_vectors16  libpapi.so.5.5.1.0  [.] _papi_hwi_invalid_cmp
+     1.28%             1  munge_vectors16  libc-2.23.so        [.] __printf_chk
+     1.23%             2  munge_vectors16  [kernel.kallsyms]   [k] vector_swi
+     0.92%             1  munge_vectors16  [kernel.kallsyms]   [k] perf_ioctl
+     0.72%             1  munge_vectors16  libc-2.23.so        [.] _itoa_word
+     0.69%             1  munge_vectors16  [kernel.kallsyms]   [k] rw_verify_area
+     0.67%             1  munge_vectors16  [kernel.kallsyms]   [k] __rcu_read_unlock
+     0.66%             1  munge_vectors16  libc-2.23.so        [.] strlen
+     0.61%             1  munge_vectors16  [kernel.kallsyms]   [k] handle_mm_fault
+     0.52%             1  munge_vectors16  [kernel.kallsyms]   [k] __do_softirq
+     0.50%             1  munge_vectors16  libc-2.23.so        [.] __GI___ioctl
+     0.49%             1  munge_vectors16  libpapi.so.5.5.1.0  [.] _papi_hwi_read
+     0.46%             1  munge_vectors16  libpapi.so.5.5.1.0  [.] _papi_hwi_get_context
+     0.44%             1  munge_vectors16  [kernel.kallsyms]   [k] do_page_fault
+     0.39%             1  munge_vectors16  [kernel.kallsyms]   [k] __fdget_pos
+     0.06%             4  perf             [kernel.kallsyms]   [k] perf_event_exec
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

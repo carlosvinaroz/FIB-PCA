@@ -1,0 +1,11 @@
+#!/bin/bash
+
+/usr/bin/time -p ./$1 $2 > /dev/null
+
+/usr/bin/time -p ./$1 $2 > /dev/null
+
+/usr/bin/time -p ./$1 $2 > /dev/null
+
+/usr/bin/time -p ./$1 $2 > /dev/null
+
+/usr/bin/time -p ./$1 $2 > /dev/null 

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+mkdir Profiling/$1
+
+./$2
+
+operf --event=CPU_CYCLES:100000 ./$2
+
+opreport -l > port_CPU_$2
+
+opannotate --source $2 > notate_CPU_$2
+
+operf --event=BR_MIS_PRED:100000 ./$2
+
+opreport -l > port_BRMISS_$2
+
+opannotate --source $2 > notate_BRMISS_$2
+
+./$3
+
+gprof -b -l ./$3 > gprof_linea_$3
+
+gprof -b ./$3 > gprof_$3
+
+objdump -d $2 > objdump_$2
+
+
+mkdir Profiling/$1/Oprofile
+
+mkdir Profiling/$1/Gprof
+
+mkdir Profiling/$1/objdump
+
+mv port* notate* Profiling/$1/Oprofile/
+mv gprof* Profiling/$1/Gprof/ 
+mv objdump_$2 Profiling/$1/objdump
+

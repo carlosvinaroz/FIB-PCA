@@ -1,0 +1,3 @@
+
+ Timing: elpased 0.080000 user 0.080000 segons, system: 0.000000 segons
+0

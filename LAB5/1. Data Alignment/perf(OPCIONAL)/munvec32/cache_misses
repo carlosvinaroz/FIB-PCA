@@ -1,0 +1,56 @@
+# ========
+# captured on: Tue Aug 28 15:53:53 2018
+# hostname : zynq-bsc
+# os release : 4.6.0-xilinx
+# perf version : 
+# arch : armv7l
+# nrcpus online : 2
+# nrcpus avail : 2
+# cpudesc : ARMv7 Processor rev 0 (v7l)
+# total memory : 511720 kB
+# cmdline : /usr/bin/perf record --event cache-misses -F 500 ./munge_vectors32.2 
+# event : name = cache-misses, , size = 112, config = 0x3, { sample_period, sample_freq } = 500, sample_type = IP|TID|TIME|PERIOD, disabled = 1, inherit = 1, mmap = 1, comm = 1, freq = 1, enable_on_exec = 1, task = 1, sample_id_all = 1, exclude_guest = 1, mmap2 = 1, comm_exec = 1
+# HEADER_CPU_TOPOLOGY info available, use -I to display
+# pmu mappings: software = 1, armv7_cortex_a9 = 6, breakpoint = 5
+# HEADER_CACHE info available, use -I to display
+# ========
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 32  of event 'cache-misses'
+# Event count (approx.): 23412
+#
+# Overhead       Samples  Command          Shared Object       Symbol                   
+# ........  ............  ...............  ..................  .........................
+#
+    59.65%             1  munge_vectors32  [kernel.kallsyms]   [k] generic_fillattr
+     7.84%             2  munge_vectors32  munge_vectors32.2   [.] Munge32
+     7.01%             1  munge_vectors32  [kernel.kallsyms]   [k] net_rx_action
+     3.86%             1  munge_vectors32  libpapi.so.5.5.1.0  [.] _papi_hwi_init_errors
+     3.50%             1  munge_vectors32  [kernel.kallsyms]   [k] generic_exec_single
+     2.84%             3  munge_vectors32  libc-2.23.so        [.] malloc
+     2.46%             1  munge_vectors32  [kernel.kallsyms]   [k] copy_page
+     1.49%             1  munge_vectors32  [kernel.kallsyms]   [k] __lru_cache_add
+     1.26%             1  munge_vectors32  [kernel.kallsyms]   [k] perf_read
+     1.24%             1  munge_vectors32  libc-2.23.so        [.] __run_exit_handlers
+     0.98%             2  munge_vectors32  libc-2.23.so        [.] getenv
+     0.97%             1  munge_vectors32  [kernel.kallsyms]   [k] do_group_exit
+     0.97%             1  munge_vectors32  [kernel.kallsyms]   [k] page_remove_rmap
+     0.96%             1  munge_vectors32  [kernel.kallsyms]   [k] rcu_process_callbacks
+     0.86%             2  munge_vectors32  [kernel.kallsyms]   [k] __fget_light
+     0.82%             1  munge_vectors32  [kernel.kallsyms]   [k] handle_mm_fault
+     0.70%             1  munge_vectors32  [kernel.kallsyms]   [k] __do_softirq
+     0.66%             1  munge_vectors32  libpapi.so.5.5.1.0  [.] PAPI_library_init
+     0.52%             1  munge_vectors32  libc-2.23.so        [.] __GI___printf_fp_l
+     0.40%             1  munge_vectors32  ld-2.23.so          [.] __tls_get_addr
+     0.37%             1  munge_vectors32  [kernel.kallsyms]   [k] _raw_spin_unlock_irq
+     0.29%             1  munge_vectors32  [kernel.kallsyms]   [k] can_stat_update
+     0.26%             1  munge_vectors32  libpapi.so.5.5.1.0  [.] PAPI_get_thr_specific
+     0.07%             1  perf             [kernel.kallsyms]   [k] _gt_counter_read
+     0.01%             3  perf             [kernel.kallsyms]   [k] perf_event_exec
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

@@ -1,0 +1,3 @@
+
+ Timing: elpased 0.210000 user 0.200000 segons, system: 0.010000 segons
+180

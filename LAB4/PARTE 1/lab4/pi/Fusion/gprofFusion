@@ -1,0 +1,45 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  us/call  us/call  name    
+ 35.34      0.06     0.06     1004    59.83    59.83  DIVIDE239FUSION
+ 23.56      0.10     0.04                             __aeabi_uidiv
+ 17.67      0.13     0.03     2011    14.94    14.94  SUBTRACT
+ 17.67      0.16     0.03     1004    29.92    29.92  LONGDIV
+  5.89      0.17     0.01                             calculate
+  0.00      0.17     0.00        1     0.00     0.00  create_hashTable
+
+			Call graph
+
+
+granularity: each sample hit covers 2 byte(s) for 5.88% of 0.17 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     76.5    0.01    0.12                 calculate [1]
+                0.06    0.00    1004/1004        DIVIDE239FUSION [2]
+                0.03    0.00    2011/2011        SUBTRACT [4]
+                0.03    0.00    1004/1004        LONGDIV [5]
+                0.00    0.00       1/1           create_hashTable [6]
+-----------------------------------------------
+                0.06    0.00    1004/1004        calculate [1]
+[2]     35.3    0.06    0.00    1004         DIVIDE239FUSION [2]
+-----------------------------------------------
+                                                 <spontaneous>
+[3]     23.5    0.04    0.00                 __aeabi_uidiv [3]
+-----------------------------------------------
+                0.03    0.00    2011/2011        calculate [1]
+[4]     17.6    0.03    0.00    2011         SUBTRACT [4]
+-----------------------------------------------
+                0.03    0.00    1004/1004        calculate [1]
+[5]     17.6    0.03    0.00    1004         LONGDIV [5]
+-----------------------------------------------
+                0.00    0.00       1/1           calculate [1]
+[6]      0.0    0.00    0.00       1         create_hashTable [6]
+-----------------------------------------------
+
+Index by function name
+
+   [2] DIVIDE239FUSION         [4] SUBTRACT                [1] calculate
+   [5] LONGDIV                 [3] __aeabi_uidiv           [6] create_hashTable

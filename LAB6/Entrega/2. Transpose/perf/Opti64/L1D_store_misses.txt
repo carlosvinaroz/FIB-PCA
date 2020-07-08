@@ -1,0 +1,34 @@
+# ========
+# captured on: Tue Aug 28 13:38:44 2018
+# hostname : zynq-bsc
+# os release : 4.6.0-xilinx
+# perf version : 
+# arch : armv7l
+# nrcpus online : 2
+# nrcpus avail : 2
+# cpudesc : ARMv7 Processor rev 0 (v7l)
+# total memory : 511720 kB
+# cmdline : /usr/bin/perf record --event L1-dcache-store-misses -F 500 ./Opti64 
+# event : name = L1-dcache-store-misses, , type = 3, size = 112, config = 0x10100, { sample_period, sample_freq } = 500, sample_type = IP|TID|TIME|PERIOD, disabled = 1, inherit = 1, mmap = 1, comm = 1, freq = 1, enable_on_exec = 1, task = 1, sample_id_all = 1, exclude_guest = 1, mmap2 = 1, comm_exec = 1
+# HEADER_CPU_TOPOLOGY info available, use -I to display
+# pmu mappings: software = 1, armv7_cortex_a9 = 6, breakpoint = 5
+# HEADER_CACHE info available, use -I to display
+# ========
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 5  of event 'L1-dcache-store-misses'
+# Event count (approx.): 604
+#
+# Overhead       Samples  Command  Shared Object      Symbol                
+# ........  ............  .......  .................  ......................
+#
+    96.69%             1  Opti64   [kernel.kallsyms]  [k] copy_page
+     2.81%             1  perf     [kernel.kallsyms]  [k] perf_event_aux_ctx
+     0.50%             3  perf     [kernel.kallsyms]  [k] perf_event_exec
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#
