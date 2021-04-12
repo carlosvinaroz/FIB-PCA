@@ -17,7 +17,7 @@ Programming and Optimizing Tools Activities
 - Removing Conditional Branches
 ### Second part
 - Ompss porting: SMP and FPGA hints
-- 
+
 ## LAB 5
 Memory Optimization
 - Data alignment
