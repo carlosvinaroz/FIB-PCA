@@ -1,14 +1,20 @@
 ### Architecture-Aware Programming (PCA)
 ### Computer science faculty of barcelona (FIB-UPC)
 # Laboraties of PCA
+
 ##LAB 2
+
 Programming and Optimizing Tools Activities
+
 ##LAB 3
+
 - Arithmetic Expression
 - Buffering
 - Memoization
 - Routine Specializations
+ 
 ##LAB 4
+
 ### First part
 - Loop Unrolling and Inlining
 - Loop fusion
